@@ -25,4 +25,7 @@ export class AuthModel {
   }
   static logout({ id }: { id: number }) {
   }
+  static getAvatarByEmail(email: string) {
+    return "https://semi1proyecto-g12.s3.us-east-2.amazonaws.com/avatar/bicho.jpg";
+  }
 }
