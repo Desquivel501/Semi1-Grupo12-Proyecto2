@@ -2,12 +2,16 @@ import * as React from 'react';
 import { 
     Grid,
     Box,
- } from '@mui/material';
- import PostPreview from '../../components/PostPreview/PostPreview';
- import CreatePost from '../../components/CreatePost/CreatePost';
- import Filtros from '../../components/Filtros/Filtros';
+} from '@mui/material';
 
-function Home() {
+import Comments from '../../components/Comments/Comments';
+
+import { useParams } from 'react-router-dom';
+
+import PostPreview from '../../components/PostPreview/PostPreview';
+import CreatePost from '../../components/CreatePost/CreatePost';
+
+function Post() {
     return (
         <>
 
@@ -23,40 +27,24 @@ function Home() {
                 }}
                 justifyContent='center'
             >
-
-                <Grid
-                    container
-                    spacing={3}
-                    sx={{ width: "30%", mx: 1}}
-                    alignItems="top"
-                    justifyContent="center"
-                >
-                    <Filtros />
-       
-                </Grid>
                 
                 <Grid
                     container
                     spacing={3}
-                    sx={{ width: "80%", mx: 1}}
+                    sx={{ width: "80%"}}
                     alignItems="top"
                     justifyContent="center"
                 >
-                    <CreatePost />
-                    
-                    <PostPreview />
 
                     <PostPreview />
 
-                    <PostPreview />
+                    <Comments />
                 
                 </Grid>
-
-                
 
             </Box>
         </>
     )
 }
 
-export default Home
+export default Post 
