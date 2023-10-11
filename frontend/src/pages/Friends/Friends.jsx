@@ -1,9 +1,10 @@
 import * as React from 'react';
+import UserList from '../../components/UserList/UserList';
 
 function Friends() {
     return (
         <>
-        <h1>Friends</h1>
+            <UserList />
         </>
     )
 }

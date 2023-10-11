@@ -11,12 +11,13 @@ import {
 } from '@mui/material';
 
 import Comment from '../Comment/Comment';
+import User from '../User/User';
 
 const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non felis a elit egestas dictum id eget diam. Aenean nisi est, malesuada quis molestie nec, auctor id tortor. Proin vel diam id quam lacinia molestie. Sed elementum hendrerit nisi nec volutpat. Sed elementum, orci nec consequat hendrerit, erat elit vestibulum eros, a hendrerit urna tellus vel ex. Quisque pretium, orci nec rhoncus fermentum, justo lorem tincidunt turpis, sed pretium libero odio et nisl. Etiam ultricies massa eu tristique sodales. Suspendisse feugiat quis magna vel condimentum. Nulla consectetur fermentum pharetra. Quisque egestas libero aliquam, semper tellus sed, cursus leo. Vestibulum vel neque commodo, mattis sem a, viverra lacus. Cras sit amet vestibulum velit, et mattis odio. Nam nec malesuada odio. Praesent quam velit, mollis fringilla imperdiet eget, viverra non ipsum. In at ante mattis, vulputate nulla vitae, aliquet turpis. Donec lacinia mattis est, sit amet dictum tellus ultrices et. '
 
 const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
 
-const comments = [
+const users = [
     {
         id: 1,
         nombre: 'John Smith',
@@ -43,7 +44,7 @@ const comments = [
     }
 ]
 
-function Comments() {
+function UserList() {
 
     return (
         <Grid 
@@ -55,22 +56,23 @@ function Comments() {
         >
             <Typography
                 variant="h5"
-                sx={{ textAlign: 'left', mt: 1, color: '#ffffff'}}
+                sx={{ textAlign: 'left', mt: 2, pt:3, color: '#ffffff'}}
             >
-                Comentarios
+                Usuarios
             </Typography>
             
-            {comments.map((comment) => (
-                <Comment 
-                    key={comment.id}
-                    nombre={comment.nombre}
-                    comentario={comment.comentario}
-                    foto={comment.foto}
-                />
-            ))}
+            {
+                users.map((user) => (
+                    <User
+                        key={user.id}
+                        nombre={user.nombre}
+                        foto={user.foto}
+                    />
+                ))
+            }
             
         </Grid>
     )
 }
 
-export default Comments
+export default UserList
