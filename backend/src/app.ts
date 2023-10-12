@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/user";
+import { postRouter } from "./routes/post";
 
 const app = express();
 app.use(cors());
@@ -14,7 +15,7 @@ app.use((req:Request,res,next)=>{
 
 app.use("/api", authRouter);
 app.use("/api/users", userRouter);
-//app.use("/api/posts", songRouter);
+app.use("/api/posts", postRouter);
 
 app.get("/", (req, res) => {
   res.status(200).send("<h1>Hola mundo</h1>");
