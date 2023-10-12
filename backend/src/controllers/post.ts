@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { TranslateText } from "../customTypes/types";
-import { translateText } from "../libs/translateClient";
+import { translateText } from "../libs/lambdaTranslate";
+//import { translateText } from "../libs/translateClient";
 
 export class PostController {
   static async translateText(req: Request, res: Response) {
@@ -15,7 +16,7 @@ export class PostController {
     }
     // Translate text
     const translatedText = await translateText(textToTranslate);
-    if (textToTranslate) {
+    if (translatedText) {
       return res.status(200).json({translatedText});
     }
     res.status(400).json({ MESSAGE: "Error al traducir" });
