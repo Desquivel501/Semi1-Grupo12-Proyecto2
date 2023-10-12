@@ -15,3 +15,11 @@ export const configRekognition: AwsConfig = {
   },
   region: process.env.AWS_REGION as string,
 };
+
+export const configTranslate: AwsConfig = {
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_TRANSLATE as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_TRANSLATE as string,
+  },
+  region: process.env.AWS_REGION as string,
+};

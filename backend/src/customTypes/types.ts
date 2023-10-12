@@ -4,9 +4,14 @@ export type Credentials = {
   photo?: string;
 };
 export type User = {
-  name: string
-  email: string
-  dpi: number
-  password:string
-  avatar: string
-}
+  name: string;
+  email: string;
+  dpi: number;
+  password: string;
+  avatar: string;
+};
+export type TranslateText = {
+  text: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+};
