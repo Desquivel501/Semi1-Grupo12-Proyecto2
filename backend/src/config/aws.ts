@@ -7,3 +7,8 @@ export const configS3: AwsConfig = {
   },
   region: process.env.AWS_REGION as string,
 };
+
+export const configCognito = {
+  UserPoolId: process.env.AWS_USER_POOL_ID as string,
+  ClientId: process.env.AWS_CLIENT_ID as string,
+}

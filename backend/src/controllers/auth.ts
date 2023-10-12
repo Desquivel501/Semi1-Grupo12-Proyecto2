@@ -14,13 +14,8 @@ export class AuthController {
     // Login
     AuthModel.login({ email, password }, (response: any, ok: boolean) => {
       // Respuesta
-      if (ok) {
-        //const token = newToken({ email, response });
-        //response["TOKEN"] = token;
-      }
-      //res.status(ok ? 200 : 400).json(response);
+      res.status(ok ? 200 : 400).json(response);
     });
-      res.status(200).json();
   }
   static logout(req: Request, res: Response) {
     const { id } = req.params;
