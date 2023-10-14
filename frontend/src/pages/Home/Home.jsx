@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import { 
     Grid,
     Box,
@@ -7,7 +7,34 @@ import {
  import CreatePost from '../../components/CreatePost/CreatePost';
  import Filtros from '../../components/Filtros/Filtros';
 
+ import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { getSession } from '../../auth/auth';
+ 
+
 function Home() {
+
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        const getCurrentUser = async () => {
+        try {
+            const user = await getSession()
+            setUser(user)
+            if (user === null) {
+                navigate('/')
+            }
+        } catch (err) {
+            // not logged in
+            console.log(err)
+            setUser(null)
+            navigate('/')
+        }
+        }
+        getCurrentUser()
+    }, [])
+
     return (
         <>
 
@@ -42,13 +69,13 @@ function Home() {
                     alignItems="top"
                     justifyContent="center"
                 >
-                    <CreatePost />
+                    <CreatePost key={0}/>
                     
-                    <PostPreview />
+                    <PostPreview key={1}/>
 
-                    <PostPreview />
+                    <PostPreview key={2}/>
 
-                    <PostPreview />
+                    <PostPreview key={3}/>
                 
                 </Grid>
 

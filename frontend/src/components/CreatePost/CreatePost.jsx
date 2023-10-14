@@ -86,7 +86,7 @@ function CreatePost() {
 
 
                 {preview && (
-                        <Grid item xs={12} sx={{ border: 0 }}>
+                    <Grid item xs={12} sx={{ border: 0 }}>
                         <Box
                             component="img"
                             sx={{ 
