@@ -49,7 +49,7 @@ function CreatePost() {
         <Grid 
             item 
             xs={12}  
-            sx={{ width: "100%", mt:3, pb:3, borderRadius: 3, px: 3, cursor: 'pointer', backgroundColor: '#38393a' }}  
+            sx={{ width: "100%", mt:3, pb:3, borderRadius: 3, px: 3, backgroundColor: '#38393a' }}  
             component={Paper} 
             justifyContent='center'
         >

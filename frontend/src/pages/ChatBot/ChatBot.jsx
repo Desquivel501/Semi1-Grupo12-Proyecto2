@@ -1,7 +1,14 @@
+import { 
+    Grid,
+    Box,
+} from '@mui/material';
+
 
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { getSession } from '../../auth/auth';
+
+import ChatContainerBot from '../../components/ChatContainerBot/ChatContainerBot';
 
 function ChatBot() {
 
@@ -28,7 +35,33 @@ function ChatBot() {
 
     return (
         <>
-        <h1>ChatBot</h1>
+            <Box
+                component="main"
+                display="flex"
+                width="45vw"
+                height="80vh"
+                sx={{
+                    flexGrow: 1,
+                    border: 0,
+                    borderColor: 'primary.main',
+                    mt:'70px',
+                }}
+                justifyContent='center'
+            >
+                
+                <Grid
+                    container
+                    spacing={3}
+                    sx={{ width: "100%"}}
+                    alignItems="top"
+                    justifyContent="center"
+                >
+
+                    <ChatContainerBot />
+                
+                </Grid>
+
+            </Box>
         </>
     )
 }
