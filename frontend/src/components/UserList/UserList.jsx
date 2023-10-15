@@ -48,11 +48,14 @@ function UserList() {
 
     return (
         <Grid 
-             
+            // container
+            height="80vh"
+            width="60%"
             xs={12}  
-            sx={{ width: "100%", mt:2, pb:3, borderRadius: 3, px: 3, backgroundColor: '#38393a' }}  
+            sx={{ mt:2, pb:3, borderRadius: 3, px: 3, backgroundColor: '#38393a' }}  
             component={Paper} 
             justifyContent='center'
+            overflow={'auto'}
         >
             <Typography
                 variant="h5"

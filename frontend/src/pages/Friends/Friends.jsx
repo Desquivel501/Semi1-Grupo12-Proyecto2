@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { getSession } from '../../auth/auth';
 import UserList from '../../components/UserList/UserList';
+import { Grid } from '@mui/material';
 
 function Friends() {
 
@@ -27,9 +28,13 @@ function Friends() {
     }, [])
     
     return (
-        <>
+        <Grid
+            display={'flex'}
+            justifyContent={'center'}
+        >
             <UserList />
-        </>
+        </Grid>
+        
     )
 }
 
