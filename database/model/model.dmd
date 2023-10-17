@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="model" id="782441F6-DFF7-FB8E-A888-BD17D00D547E" version="3.5">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 01:54:41 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>782441F6-DFF7-FB8E-A888-BD17D00D547E</designId>
+</OSDM_Design>

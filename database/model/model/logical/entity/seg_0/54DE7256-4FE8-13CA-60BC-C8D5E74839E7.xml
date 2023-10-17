@@ -1,0 +1,121 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="54DE7256-4FE8-13CA-60BC-C8D5E74839E7" name="Publication">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:01:29 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="pub_id" id="8F07E388-E1AB-7EAD-1DF6-24752DD6FDB9">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:01:55 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="image" id="E2F58B4B-81EB-23B9-89C7-7F110C9AE965">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:01:36 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="description" id="7ED3EB92-3EE7-D5E5-9891-4C237349623C">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:01:43 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="98A1847C-67D4-DF9E-24AF-563A9C9EDC68">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:02:12 UTC</createdTime>
+<generatorID>EA8071AC-2457-EAE8-220E-91E6C5DD6525</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<referedAttribute>E884F40F-0386-4758-8C31-5EA2B79462D3</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="likes" id="5AC46799-F84E-3801-D787-F5DFEEE5FE3E">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:10:05 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="dislikes" id="4A6007B6-D1E8-5F80-A109-ECAF21BCAE5F">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:10:08 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="date" id="EB8BF89F-E117-27F3-871B-20BDB8AD583D">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:55:50 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="time" id="E945D7A5-399F-6E63-DD0D-51AC11261145">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:55:56 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="25A0D85E-2023-B5D2-5B12-18B5692D50AE" name="Publication PK">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:02:04 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>8F07E388-E1AB-7EAD-1DF6-24752DD6FDB9</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

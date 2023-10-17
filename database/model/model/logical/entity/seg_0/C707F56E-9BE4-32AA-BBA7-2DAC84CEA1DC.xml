@@ -1,0 +1,80 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="C707F56E-9BE4-32AA-BBA7-2DAC84CEA1DC" name="Friend">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:06:29 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_friendship" id="51285B08-D451-1C28-E109-C8F865A6D2BA">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:13:05 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="EEA47AC8-3A7A-76C1-7C71-18F5A9B77DEE">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:07:28 UTC</createdTime>
+<generatorID>C350A132-DFDC-B17C-088D-295C278099A5</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<referedAttribute>E884F40F-0386-4758-8C31-5EA2B79462D3</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email1" id="8C4F6326-BE34-4074-6D99-313E00866C3C">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:07:33 UTC</createdTime>
+<generatorID>980542F2-8F23-2D4B-2782-5A1EC3CFBC9A</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<referedAttribute>E884F40F-0386-4758-8C31-5EA2B79462D3</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="confirmed" id="D7D9DDC9-4E51-B8F3-99DA-455D1C6D94A5">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 03:08:43 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="5B0394AD-320F-CA54-DA8B-08E794041760" name="Friend PK">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:07:39 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>EEA47AC8-3A7A-76C1-7C71-18F5A9B77DEE</attributeRef>
+<attributeRef>8C4F6326-BE34-4074-6D99-313E00866C3C</attributeRef>
+<attributeRef>51285B08-D451-1C28-E109-C8F865A6D2BA</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

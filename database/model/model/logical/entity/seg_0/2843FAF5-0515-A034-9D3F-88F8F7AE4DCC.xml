@@ -1,0 +1,98 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="2843FAF5-0515-A034-9D3F-88F8F7AE4DCC" name="Comment">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:09:31 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="content" id="A4E54848-6DE3-669A-17D0-94EC06AAFC87">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:09:36 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="likes" id="50293E6C-5DDB-FFE3-DF13-0C0960935EB0">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:09:50 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="dislikes" id="F31C4032-B9ED-798F-EB9D-4EE681458F02">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:09:56 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="pub_id" id="18FA6632-DCC6-3CD5-5B0B-E97E9D1033BC">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:10:44 UTC</createdTime>
+<generatorID>0356C532-4B1E-AA16-1F10-7FEF708E0689</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<referedAttribute>8F07E388-E1AB-7EAD-1DF6-24752DD6FDB9</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="21EA60B8-E38B-3A28-A52C-39F27BF76E02">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:11:14 UTC</createdTime>
+<generatorID>F9FE5E7E-C73E-38B1-0DED-1BEA0B9E3F18</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<referedAttribute>E884F40F-0386-4758-8C31-5EA2B79462D3</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="date" id="73CBE847-840B-DADB-5095-7B8ECE29B5E2">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:55:25 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="time" id="D7089827-2451-1E25-3472-730045AAF4BD">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 02:55:27 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>
