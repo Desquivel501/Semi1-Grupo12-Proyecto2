@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="07DF4A01-01EA-3320-8CA3-3F1FFC8D3EC2" name="Tag">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 03:03:41 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_tag" id="D206D55E-1BA9-474C-8C71-8080D11B00F9">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 03:03:46 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="1C548295-C4A7-C7C2-6053-62E9B529EAE6">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 03:03:49 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="pub_id" id="23457512-72F2-C90B-3DA0-3884FB64509C">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 03:04:10 UTC</createdTime>
+<generatorID>C0CCA9E9-8B7C-B237-0B69-0F887A180834</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<referedAttribute>8F07E388-E1AB-7EAD-1DF6-24752DD6FDB9</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="9F9A61AD-21B0-4D93-8C4C-6E7E23904D23" name="Tag PK">
+<createdBy>monte</createdBy>
+<createdTime>2023-10-16 03:04:01 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>D206D55E-1BA9-474C-8C71-8080D11B00F9</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
