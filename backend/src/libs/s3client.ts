@@ -24,6 +24,7 @@ export const s3Storage = multerS3({
       if (fieldnames.includes(file.fieldname)) {
         const fileName = file.fieldname + "/" + Date.now() + file.originalname;
         cb(null, fileName);
+        return
       }
       cb(null, "f");
     } catch (error) {
