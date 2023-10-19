@@ -5,6 +5,7 @@ import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/user";
 import { postRouter } from "./routes/post";
 import { friendsRouter } from "./routes/friend";
+import { checkToken } from "./middlewares/jwt";
 
 const app = express();
 app.use(cors());
@@ -15,9 +16,9 @@ app.use((req:Request,res,next)=>{
 })
 
 app.use("/api", authRouter);
-app.use("/api/users", userRouter);
-app.use("/api/friends", friendsRouter);
-app.use("/api/posts", postRouter);
+app.use("/api/users",checkToken, userRouter);
+app.use("/api/friends",checkToken, friendsRouter);
+app.use("/api/posts",checkToken, postRouter);
 
 app.get("/", (req, res) => {
   res.status(200).send("<h1>Hola mundo</h1>");
