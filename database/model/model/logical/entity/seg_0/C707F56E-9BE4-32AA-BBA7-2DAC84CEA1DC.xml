@@ -71,8 +71,6 @@
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>EEA47AC8-3A7A-76C1-7C71-18F5A9B77DEE</attributeRef>
-<attributeRef>8C4F6326-BE34-4074-6D99-313E00866C3C</attributeRef>
 <attributeRef>51285B08-D451-1C28-E109-C8F865A6D2BA</attributeRef>
 </usedAttributes>
 </identifier>
