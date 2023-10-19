@@ -4,11 +4,12 @@ export type Credentials = {
   photo?: string;
 };
 export type User = {
-  name: string;
-  email: string;
   dpi: number;
+  name: string;
+  lastName: string;
+  email: string;
   password: string;
-  avatar: string;
+  avatar: Express.MulterS3.File;
 };
 export type TranslateText = {
   text: string;
