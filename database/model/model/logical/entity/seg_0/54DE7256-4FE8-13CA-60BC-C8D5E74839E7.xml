@@ -59,28 +59,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="likes" id="5AC46799-F84E-3801-D787-F5DFEEE5FE3E">
-<createdBy>monte</createdBy>
-<createdTime>2023-10-16 02:10:05 UTC</createdTime>
-<ownerDesignName>model</ownerDesignName>
-<engineerTo>
-<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="dislikes" id="4A6007B6-D1E8-5F80-A109-ECAF21BCAE5F">
-<createdBy>monte</createdBy>
-<createdTime>2023-10-16 02:10:08 UTC</createdTime>
-<ownerDesignName>model</ownerDesignName>
-<engineerTo>
-<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="date" id="EB8BF89F-E117-27F3-871B-20BDB8AD583D">
 <createdBy>monte</createdBy>
 <createdTime>2023-10-16 02:55:50 UTC</createdTime>

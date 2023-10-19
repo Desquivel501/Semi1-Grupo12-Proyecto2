@@ -37,30 +37,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="email" id="BA7B2815-4CB4-8979-7F9F-AD17F562AFA9">
-<createdBy>monte</createdBy>
-<createdTime>2023-10-16 02:14:46 UTC</createdTime>
-<generatorID>FDF86EEC-3110-CA24-1807-9154C8713F2F</generatorID>
-<ownerDesignName>model</ownerDesignName>
-<engineerTo>
-<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
-</engineerTo>
-<referedAttribute>EEA47AC8-3A7A-76C1-7C71-18F5A9B77DEE</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="email1" id="99A50E0F-5258-EF34-0AFA-02170F24A7AC">
-<createdBy>monte</createdBy>
-<createdTime>2023-10-16 02:14:46 UTC</createdTime>
-<generatorID>FDF86EEC-3110-CA24-1807-9154C8713F2F</generatorID>
-<ownerDesignName>model</ownerDesignName>
-<engineerTo>
-<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
-</engineerTo>
-<referedAttribute>8C4F6326-BE34-4074-6D99-313E00866C3C</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="id_friendship" id="DEF4D87C-894F-32FD-E170-D37B21A96264">
 <createdBy>monte</createdBy>
 <createdTime>2023-10-16 02:15:31 UTC</createdTime>

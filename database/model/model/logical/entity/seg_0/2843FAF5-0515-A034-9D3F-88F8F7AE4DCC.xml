@@ -26,28 +26,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="likes" id="50293E6C-5DDB-FFE3-DF13-0C0960935EB0">
-<createdBy>monte</createdBy>
-<createdTime>2023-10-16 02:09:50 UTC</createdTime>
-<ownerDesignName>model</ownerDesignName>
-<engineerTo>
-<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="dislikes" id="F31C4032-B9ED-798F-EB9D-4EE681458F02">
-<createdBy>monte</createdBy>
-<createdTime>2023-10-16 02:09:56 UTC</createdTime>
-<ownerDesignName>model</ownerDesignName>
-<engineerTo>
-<item key="3555C60F-AC1A-E7E9-0952-79B1D9474F44" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="pub_id" id="18FA6632-DCC6-3CD5-5B0B-E97E9D1033BC">
 <createdBy>monte</createdBy>
 <createdTime>2023-10-16 02:10:44 UTC</createdTime>
