@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Web Chat</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="module">
+      // importamos la librería
+      import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+
+      const form = document.getElementById("form");
+      const input = document.getElementsByName("message");
+      const rooms = document.getElementsByName("room");
+      const messages = document.getElementById("messages");
+      // Creamos un socket y el objetivo es la IP+puerto con el endpoint "chat"
+      // socket podría ser un estado
+      const socket = io("localhost:3000/chat");
+      // room podría ser un estado, en este caso se manejará por el id_friendship 
+      let room = null; // id_friendship
+      // El onchange no es necesario, solo es para escuchar cuando se cambia de chat
+      // Se podría tener un effecto para cambiar de chat (room)
+      rooms[0].addEventListener("change", (e) => {
+        console.log(e.target.value);
+        if (e.target.value != "") {
+          // evento change room para ir mandar los mensajes al otro chat
+          socket.emit("change room", e.target.value);
+          room = e.target.value;
+        }
+      });
+      // Envío de mensajes
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (input[0].value) {
+          // emmit para enviar mensaje al evento
+          // es necesario el texto y room
+          socket.emit("message", input[0].value, room);
+          input[0].value = "";
+        }
+      });
+      // Estamos escuchando nuevos mensajes
+      socket.on("message", (message) => {
+        console.log({ message });
+        // Una vez recibido el mensaje...
+        const item = document.createElement("li");
+        item.innerText = message;
+        messages.appendChild(item);
+      });
+    </script>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        display: grid;
+        place-content: center;
+        height: 90vh;
+        padding: 36px;
+        grid-template-rows: 1fr;
+      }
+      #chat {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        width: 350px;
+        height: 100%;
+        position: relative;
+      }
+      #form {
+        bottom: 0;
+        display: flex;
+        height: 40px;
+        left: 0;
+        position: absolute;
+        padding: 4px;
+        right: 0;
+      }
+      #input {
+        border-radius: 999px;
+        border: 1px solid #eee;
+        flex: 1;
+        padding: 0 8px;
+        margin: 4px;
+      }
+      #input:focus {
+        outline: 0;
+      }
+      #form > button {
+        background-color: #09f;
+        color: #fff;
+        border: 0;
+        margin: 4px;
+        border-radius: 4px;
+      }
+      #form > button:hover {
+        background-color: #0cf;
+      }
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+      }
+      #messages > li:nth-child(odd) {
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="chat">
+      <input type="text" name="room" value="" placeholder="room" />
+      <ul id="messages"></ul>
+      <form id="form">
+        <input
+          id="input"
+          type="text"
+          name="message"
+          placeholder="Type a message..."
+          autocomplete="off"
+        />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </body>
+</html>
