@@ -5,36 +5,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script type="module">
+      function clean(element){
+        while (element.firstElementChild){
+          element.removeChild(element.firstElementChild);
+        }
+      }
       // importamos la librería
       import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
       const form = document.getElementById("form");
-      const input = document.getElementsByName("message");
-      const rooms = document.getElementsByName("room");
+      const input = document.getElementById("input");
+      const sender = document.getElementById("sender");
+      const room = document.getElementById("room");
       const messages = document.getElementById("messages");
       // Creamos un socket y el objetivo es la IP+puerto con el endpoint "chat"
       // socket podría ser un estado
       const socket = io("localhost:3000/chat");
-      // room podría ser un estado, en este caso se manejará por el id_friendship 
-      let room = null; // id_friendship
+      // room podría ser un estado, en este caso se manejará por el id_friendship
+      //let room = null; // id_friendship
       // El onchange no es necesario, solo es para escuchar cuando se cambia de chat
       // Se podría tener un effecto para cambiar de chat (room)
-      rooms[0].addEventListener("change", (e) => {
+      room.addEventListener("change", (e) => {
         console.log(e.target.value);
         if (e.target.value != "") {
           // evento change room para ir mandar los mensajes al otro chat
           socket.emit("change room", e.target.value);
-          room = e.target.value;
+          //room = e.target.value;
+          clean(messages)
         }
       });
       // Envío de mensajes
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (input[0].value) {
+        if (input.value) {
           // emmit para enviar mensaje al evento
           // es necesario el texto y room
-          socket.emit("message", input[0].value, room);
-          input[0].value = "";
+          socket.emit("message", sender.value, input.value, room.value);
+          input.value = "";
         }
       });
       // Estamos escuchando nuevos mensajes
@@ -44,6 +51,17 @@
         const item = document.createElement("li");
         item.innerText = message;
         messages.appendChild(item);
+      });
+
+      // Estamos restaurando los mensajes
+      socket.on("change room", (prueba) => {
+        console.log(prueba, typeof prueba);
+        // Una vez recibido el mensaje...
+        prueba.forEach((message) => {
+          const item = document.createElement("li");
+          item.innerText = message.content
+          messages.appendChild(item);
+        });
       });
     </script>
     <style>
@@ -111,7 +129,14 @@
   </head>
   <body>
     <section id="chat">
-      <input type="text" name="room" value="" placeholder="room" />
+      <input
+        id="sender"
+        type="text"
+        name="sender"
+        value=""
+        placeholder="me@gmail.com"
+      />
+      <input id="room" type="text" name="room" value="" placeholder="room" />
       <ul id="messages"></ul>
       <form id="form">
         <input

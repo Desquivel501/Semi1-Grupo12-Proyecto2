@@ -16,3 +16,13 @@ export type TranslateText = {
   sourceLanguage: string;
   targetLanguage: string;
 };
+export type Message = {
+  friendship: string;
+  sender: string;
+  content: string;
+};
+export type BotMessage = {
+  email: string;
+  sender: string;
+  content: string;
+};
