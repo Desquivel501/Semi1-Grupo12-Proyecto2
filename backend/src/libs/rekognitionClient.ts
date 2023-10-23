@@ -2,6 +2,9 @@ import {
   CompareFacesCommand,
   CompareFacesCommandInput,
   CompareFacesCommandOutput,
+  DetectLabelsCommand,
+  DetectLabelsCommandInput,
+  DetectLabelsCommandOutput,
   RekognitionClient,
 } from "@aws-sdk/client-rekognition";
 import { configRekognition } from "../config/aws";
@@ -39,5 +42,39 @@ export async function compareFaces(file: Express.Multer.File, source: string) {
     // error handling.
     console.log({ error });
     return false;
+  }
+}
+
+export async function detectLabels(source: string) {
+  try {
+    const Name = source.split(".com/")[1];
+    if (!Name) {
+      return [];
+    }
+    const params: DetectLabelsCommandInput = {
+      Image: {
+        S3Object: {
+          Name,
+          Bucket: AWS_BUCKET_NAME,
+        },
+      },
+      MaxLabels:10
+    };
+    const command = new DetectLabelsCommand(params);
+    const data: DetectLabelsCommandOutput = await rekognitionClient.send(
+      command,
+    );
+    const labels = new Set() 
+    data.Labels?.forEach((label)=>{
+      labels.add(label.Name??"")
+      // label.Parents?.forEach((parent)=>{
+      //   labels.add(parent.Name??"")
+      // })
+    })
+    return Array.from(labels) as string[]
+  } catch (error) {
+    // error handling.
+    console.log({ error });
+    return [];
   }
 }

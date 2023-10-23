@@ -12,6 +12,7 @@ export class UserController {
       }
       const message = await UserModel.register(newUser);
       if (message != null) {
+        message["avatar"] = newUser.avatar.location
         return res.status(200).json(message);
       }
       res.status(400).json({ MESSAGE: "Error al crear usuario" });
