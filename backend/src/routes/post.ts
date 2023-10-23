@@ -10,5 +10,6 @@ postRouter.post("/translate", PostController.translateText);
 postRouter.post("/create",upload.single("img"), PostController.createPost);
 postRouter.post("/addComment", PostController.addComment);
 postRouter.post("/addTag", PostController.addTagToPost);
+postRouter.get("/tags", PostController.getAllTags);
 postRouter.get("/:email", PostController.getPosts);
 postRouter.get("/:post/comments", PostController.getPostComments);
