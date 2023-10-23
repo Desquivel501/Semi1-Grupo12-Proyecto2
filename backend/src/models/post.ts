@@ -61,14 +61,25 @@ export class PostModel {
 
   static async addTagToPost(post: number, tag: string) {
     try {
-      const message = await connector.promise().query(
+      await connector.promise().query(
         "CALL AddTagToPublication(?,?)",
         [post, tag],
       );
-      return getSuccessfullMessage(message);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async getAllTags() {
+    try {
+      const message = await connector.promise().query(
+        "CALL GetAllTags()",
+      );
+      return checkRows(message);
     } catch (error) {
       console.log(error);
       return null;
     }
   }
+
 }

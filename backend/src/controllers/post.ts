@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { TranslateText } from "../customTypes/types";
 import { translateText } from "../libs/lambdaTranslate";
 import { PostModel } from "../models/post";
+import { detectLabels } from "../libs/rekognitionClient";
 //import { translateText } from "../libs/translateClient";
 
 export class PostController {
@@ -10,10 +11,16 @@ export class PostController {
       const { email, text } = req.body;
       const img = req.file as Express.MulterS3.File;
       if (!email || !text || img.location.endsWith("f")) {
-        res.status(400).json({ MESSAGE: "Faltan datos" });
+        return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await PostModel.createPost(email, text, img);
       if (message != null) {
+        // getLabels
+        const labels: string[] = await detectLabels(img.location);
+        labels.forEach(async (tag) => {
+          // console.log(tag)
+          await PostModel.addTagToPost(message.ID, tag);
+        });
         return res.status(200).json(message);
       }
       res.status(400).json({ MESSAGE: "Error al crear publicación" });
@@ -111,6 +118,19 @@ export class PostController {
     } catch (error) {
       console.log(error);
       res.status(400).json({ MESSAGE: "Error al obtener commentarios" });
+    }
+  }
+
+  static async getAllTags(req: Request, res: Response) {
+    try {
+      const message = await PostModel.getAllTags();
+      if (message != null) {
+        return res.status(200).json(message);
+      }
+      res.status(400).json({ MESSAGE: "Error al obtener etiquetas" });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ MESSAGE: "Error al obtener etiquetas" });
     }
   }
 }
