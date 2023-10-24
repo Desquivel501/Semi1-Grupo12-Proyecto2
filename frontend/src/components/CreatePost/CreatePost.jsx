@@ -52,9 +52,7 @@ function CreatePost() {
       }, [selectedFile]);
 
     const handleUpload = async () => {
-
-        console.log(user);
-
+        
         const data = new FormData();
         data.append('img', selectedFile);
         data.append('text', text);
