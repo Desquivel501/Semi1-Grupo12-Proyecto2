@@ -56,4 +56,17 @@ export class UserModel {
     }
   }
 
+  static async deleteUser(email: string) {
+    try {
+      const data = await connector.promise().query(
+        "CALL DeleteUser(?)",
+        [email],
+      );
+      return getSuccessfullMessage(data);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
 }
