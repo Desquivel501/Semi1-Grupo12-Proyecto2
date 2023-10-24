@@ -10,15 +10,115 @@ import {
     Avatar, 
 } from '@mui/material';
 
-import { AuthContext } from "../../auth/authProvider";
+import { postData } from '../../api/api';
 
 import { getCurrentUser } from '../../auth/auth';
+
+import { AuthContext } from "../../auth/authProvider";
+
+import Swal from 'sweetalert2';
 
 function User(props) {
 
     const { nombre, foto, solicitudes = false, dpi, email } = props
 
-    const [user, setUser] = useState(null)
+    const { user} = useContext(AuthContext);
+    const [disabled, setDisabled] = useState(false)
+    const [aceptada, setAceptada] = useState(0)
+
+
+    const enviarSolicitud = async () => {
+
+        const endpoint = '/friends/addFriend'
+
+        const data = {
+            email: user.email,
+            friend: email
+        }
+
+        console.log(data)
+
+        const res = await postData({endpoint, data})
+        console.log(res)
+
+        if(res.TYPE == 'SUCCESS'){
+            Swal.fire({
+                icon: 'success',
+                title: 'Solicitud enviada',
+                showConfirmButton: false
+            })
+            setDisabled(true)
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo enviar la solicitud',
+                showConfirmButton: false
+            })
+        }
+    }
+
+    const aceptarSolicitud = async () => {
+        const endpoint = '/friends/acceptFriend'
+
+        const data = {
+            email: user.email,
+            friend: email
+        }
+
+        console.log(data)
+
+        const res = await postData({endpoint, data})
+        console.log(res)
+
+        if(res.TYPE == 'SUCCESS'){
+            Swal.fire({
+                icon: 'success',
+                title: 'Solicitud aceptada',
+                showConfirmButton: false
+            })
+            setDisabled(true)
+            setAceptada(1)
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo aceptar la solicitud',
+                showConfirmButton: false
+            })
+        }
+    }
+
+    const rechazarSolicitud = async () => {
+        const endpoint = '/friends/declineFriend'
+
+        const data = {
+            email: user.email,
+            friend: email
+        }
+
+        console.log(data)
+
+        const res = await postData({endpoint, data})
+        console.log(res)
+
+        if(res.TYPE == 'SUCCESS'){
+            Swal.fire({
+                icon: 'success',
+                title: 'Solicitud rechazada',
+                showConfirmButton: false
+            })
+            setDisabled(true)
+            setAceptada(2)
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo rechazar la solicitud',
+                showConfirmButton: false
+            })
+        }
+    }
 
 
     return (
@@ -58,27 +158,51 @@ function User(props) {
 
                 {
                     solicitudes ? 
-                    <>
-                        <Button
-                            variant="contained"
-                            sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10', mx:1}}
-                        >
-                            Aceptar
-                        </Button>
+                        aceptada == 0 ? 
+                            <>
+                                <Button
+                                    variant="contained"
+                                    disabled={disabled}
+                                    sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10', mx:1}}
+                                    onClick={aceptarSolicitud}
+                                >
+                                    Aceptar
+                                </Button>
 
-                        <Button
-                            variant="contained"
-                            sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#9e1718'}}
-                        >
-                            Rechazar
-                        </Button>
-                    </>
+                                <Button
+                                    variant="contained"
+                                    disabled={disabled}
+                                    sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#9e1718'}}
+                                    onClick={rechazarSolicitud}
+                                >
+                                    Rechazar
+                                </Button>
+                            </>
+                            :
+                                aceptada == 1 ?
+                                    <Button
+                                        variant="contained"
+                                        disabled={disabled}
+                                        sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10'}}
+                                    >
+                                        Amigos!
+                                    </Button>
+                                :
+                                    <Button
+                                        variant="contained"
+                                        disabled={disabled}
+                                        sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#9e1718'}}
+                                    >
+                                        Rechazado
+                                    </Button>
                     :
                     <Button
                         variant="contained"
+                        disabled={disabled}
                         sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: solicitudes ? '#1f6d10' : '#1976d2'}}
+                        onClick={enviarSolicitud}
                     >
-                        Enviar Solicitud
+                        {disabled ? 'Solicitud enviada' : 'Enviar solicitud'}
                     </Button>
                 }
                 

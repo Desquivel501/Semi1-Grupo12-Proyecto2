@@ -43,3 +43,21 @@ export async function getData({ endpoint }) {
     .then((res) => res.json())
     .catch((er) => console.log(er));
 }
+
+export async function postData({ endpoint, data }) {
+
+  const session = await getSession();
+  const idToken = session.idToken
+
+  return fetch(`${API}${endpoint}`,{
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+        Authorization: `Bearer ${idToken.jwtToken}`,
+        "Access-Control-Allow-Origin_Origin": "*",
+        "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .catch((er) => console.log(er));
+}

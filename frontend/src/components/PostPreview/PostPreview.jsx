@@ -16,7 +16,9 @@ const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nu
 
 const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
 
-function PostPreview() {
+function PostPreview(props) {
+
+    const { avatar, name, text, picture  } = props
 
     const navigate = useNavigate();
 
