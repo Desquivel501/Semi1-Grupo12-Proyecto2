@@ -33,6 +33,7 @@ function Friends() {
             justifyContent={'center'}
         >
             <UserList />
+            <UserList solicitudes={true}/>
         </Grid>
         
     )

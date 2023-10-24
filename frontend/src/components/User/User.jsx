@@ -12,7 +12,7 @@ import {
 
 function User(props) {
 
-    const { nombre, foto } = props
+    const { nombre, foto, solicitudes } = props
 
     return (
         <Grid
@@ -34,7 +34,7 @@ function User(props) {
                 />
             </Grid>
             
-            <Grid item xs={7} sx={{ border: 0 }}>
+            <Grid item xs={6} sx={{ border: 0 }}>
                 
                 <Typography
                     variant="h5"
@@ -45,13 +45,13 @@ function User(props) {
 
             </Grid>
 
-            <Grid item display='flex' xs={3} sx={{ border: 0}} justifyContent="center">
+            <Grid item display='flex' xs={4} sx={{ border: 0}} justifyContent="center">
                 
                 <Button
                     variant="contained"
-                    sx={{ textAlign: 'left', color: '#ffffff', }}
+                    sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: solicitudes ? '#1f6d10' : '#1976d2'}}
                 >
-                    Enviar Solicitud
+                    {solicitudes ? 'Aceptar Solicitud' : 'Enviar Solicitud'}
                 </Button>
 
             </Grid>
