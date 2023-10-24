@@ -6,32 +6,31 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { getSession } from '../../auth/auth';
+import { getSession, getCurrentUser } from '../../auth/auth';
 
 import UserChatList from '../../components/UserChatList/UserChatList';
 import ChatContainer from '../../components/ChatContainer/ChatContainer';
 
 function Chat() {
 
-    const navigate = useNavigate();
     const [user, setUser] = useState(null)
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        const getCurrentUser = async () => {
+        const checkUser = async () => {
         try {
-            const user = await getSession()
-            setUser(user)
+            const user = await getCurrentUser()
             if (user === null) {
                 navigate('/')
             }
+            setUser(user)
         } catch (err) {
-            // not logged in
             console.log(err)
-            setUser(null)
             navigate('/')
         }
         }
-        getCurrentUser()
+        checkUser()
     }, [])
 
     return (

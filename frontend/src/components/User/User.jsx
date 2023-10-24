@@ -16,7 +16,7 @@ import { getCurrentUser } from '../../auth/auth';
 
 function User(props) {
 
-    const { nombre, foto, solicitudes } = props
+    const { nombre, foto, solicitudes = false, dpi, email } = props
 
     const [user, setUser] = useState(null)
 
