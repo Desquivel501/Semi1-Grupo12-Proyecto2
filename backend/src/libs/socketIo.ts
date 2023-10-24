@@ -34,7 +34,7 @@ export function chat(io: Server) {
         });
         console.log({res})
         if (res != null) {
-          io.of("/chat").to(room).emit("message", content);
+          io.of("/chat").to(room).emit("message",sender,content,room);
         }
       }
     });
