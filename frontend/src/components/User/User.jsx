@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { 
     Grid,
     Paper,
@@ -10,9 +10,16 @@ import {
     Avatar, 
 } from '@mui/material';
 
+import { AuthContext } from "../../auth/authProvider";
+
+import { getCurrentUser } from '../../auth/auth';
+
 function User(props) {
 
     const { nombre, foto, solicitudes } = props
+
+    const [user, setUser] = useState(null)
+
 
     return (
         <Grid
@@ -46,13 +53,36 @@ function User(props) {
             </Grid>
 
             <Grid item display='flex' xs={4} sx={{ border: 0}} justifyContent="center">
+
+                {/* {solicitudes ? 'Aceptar Solicitud' : ''} */}
+
+                {
+                    solicitudes ? 
+                    <>
+                        <Button
+                            variant="contained"
+                            sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10', mx:1}}
+                        >
+                            Aceptar
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#9e1718'}}
+                        >
+                            Rechazar
+                        </Button>
+                    </>
+                    :
+                    <Button
+                        variant="contained"
+                        sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: solicitudes ? '#1f6d10' : '#1976d2'}}
+                    >
+                        Enviar Solicitud
+                    </Button>
+                }
                 
-                <Button
-                    variant="contained"
-                    sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: solicitudes ? '#1f6d10' : '#1976d2'}}
-                >
-                    {solicitudes ? 'Aceptar Solicitud' : 'Enviar Solicitud'}
-                </Button>
+                
 
             </Grid>
 

@@ -29,3 +29,17 @@ export async function sendFormData({ endpoint, data }) {
     .then((res) => res.json())
     .catch((err) => console.log(err));
 }
+
+export async function getData({ endpoint }) {
+
+  const session = await getSession();
+  const idToken = session.idToken
+
+  return fetch(`${API}${endpoint}`,{
+    headers: {
+        Authorization: `Bearer ${idToken.jwtToken}`,
+    },
+  })
+    .then((res) => res.json())
+    .catch((er) => console.log(er));
+}

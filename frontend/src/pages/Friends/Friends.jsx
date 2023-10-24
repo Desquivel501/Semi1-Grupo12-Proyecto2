@@ -1,30 +1,43 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { getSession } from '../../auth/auth';
+import { getSession, getCurrentUser } from '../../auth/auth';
 import UserList from '../../components/UserList/UserList';
 import { Grid } from '@mui/material';
+
+import { getData } from '../../api/api';
 
 function Friends() {
 
     const navigate = useNavigate();
-    const [user, setUser] = useState(null)
+
+    const [notFriends, setNotFriends] = useState([])
 
     useEffect(() => {
-        const getCurrentUser = async () => {
+        const checkUser = async () => {
         try {
-            const user = await getSession()
-            setUser(user)
+            const user = await getCurrentUser()
             if (user === null) {
                 navigate('/')
             }
+
+            let endpoint = `/friends/not/${user.email}`
+            let res = await getData({endpoint})
+            console.log(res)
+            setNotFriends(res)
+
+            // endpoint = `/friends/not/${user.email}`
+            // res = await getData({endpoint})
+            // setNotFriends(res)
+
+            
+
         } catch (err) {
             // not logged in
             console.log(err)
-            setUser(null)
             navigate('/')
         }
         }
-        getCurrentUser()
+        checkUser()
     }, [])
     
     return (
@@ -32,7 +45,7 @@ function Friends() {
             display={'flex'}
             justifyContent={'center'}
         >
-            <UserList />
+            <UserList users={notFriends}/>
             <UserList solicitudes={true}/>
         </Grid>
         
