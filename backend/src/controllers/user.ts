@@ -53,4 +53,22 @@ export class UserController {
       res.status(400).json({ MESSAGE: "Error al actualizar usuario" });
     }
   }
+
+  static async deleteUser(req: Request, res: Response) {
+    try {
+      const { email } = req.params;
+      if (!email) {
+        res.status(400).json({ MESSAGE: "Faltan el correo" });
+      }
+      const message = await UserModel.deleteUser(email);
+      if (message != null) {
+        return res.status(200).json(message);
+      }
+      res.status(400).json({ MESSAGE: "Error al eliminar usuario" });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ MESSAGE: "Error al eliminar usuario" });
+    }
+  }
+
 }
