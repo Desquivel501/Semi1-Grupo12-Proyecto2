@@ -88,4 +88,21 @@ export class FriendController {
     }
   }
 
+  static async getFriendsRequests(req: Request, res: Response) {
+    try {
+      const { email } = req.params;
+      if (!email) {
+        res.status(400).json({ MESSAGE: "Faltan el correo" });
+      }
+      const message = await FriendModel.getFriendRequests(email);
+      if (message != null) {
+        return res.status(200).json(message);
+      }
+      res.status(400).json({ MESSAGE: "Error al obtener solicitudes de amistad" });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ MESSAGE: "Error al obtener solicitudes de amistad" });
+    }
+  }
+
 }

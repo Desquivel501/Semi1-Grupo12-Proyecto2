@@ -7,4 +7,5 @@ friendsRouter.post("/addFriend", FriendController.addFriend);
 friendsRouter.post("/acceptFriend", FriendController.acceptNewFriend);
 friendsRouter.post("/declineFriend", FriendController.declineNewFriend);
 friendsRouter.get("/:email", FriendController.getFriends);
+friendsRouter.get("/:email/requests", FriendController.getFriendsRequests);
 friendsRouter.get("/not/:email", FriendController.getNonFriends);

@@ -69,4 +69,17 @@ export class FriendModel {
     }
   }
 
+  static async getFriendRequests(email: string) {
+    try {
+      const data = await connector.promise().query(
+        "CALL GetFriendRequests(?)",
+        [email],
+      );
+      return checkRows(data);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
 }
