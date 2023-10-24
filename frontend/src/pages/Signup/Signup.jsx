@@ -16,6 +16,8 @@ import { useContext, useState, useEffect } from "react";
 
 import { signUp } from "../../auth/auth";
 
+import { registrar } from "../../api/api";
+
 export default function Signup() {
   const navigate = useNavigate();
 
@@ -50,8 +52,30 @@ export default function Signup() {
     event.preventDefault();
     
     try {
-      await signUp(event.target.dpi.value, event.target.name.value, event.target.lastname.value, event.target.email.value, event.target.password.value)
-      console.log("Usuario creado exitosamente");
+
+      const data = new FormData(event.currentTarget);
+      
+      const res = await registrar(data)
+
+      if(res.TYPE != 'SUCCESS') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: res.MESSAGE,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/signup");
+          }
+        })
+      }
+
+      const cognito = await signUp(data.get('dpi'), data.get('name'), data.get('lastName'), data.get('email'), data.get('password'), res.avatar)
+      
+      // console.log("Usuario creado exitosamente");
+      
+      console.log(cognito);
+
+
     } catch (err) {
       console.log(err);
     }
@@ -190,7 +214,6 @@ export default function Signup() {
                             id="name"
                             label="Nombre"
                             name="name"
-                            autoFocus
                             sx={{ input: { color: '#fff' }, borderColor: '#fff' }}
                             />
                         </Grid>
@@ -205,9 +228,9 @@ export default function Signup() {
                             margin="normal"
                             required
                             fullWidth
-                            id="lastname"
+                            id="lastName"
                             label="Apellido"
-                            name="lastname"
+                            name="lastName"
                             sx={{ input: { color: '#fff' }, borderColor: '#fff' }}
                             />
                         </Grid>
@@ -287,11 +310,11 @@ export default function Signup() {
                             >
                               <input
                                 type="file"
-                                id="file"
+                                id="avatar"
                                 hidden
                                 onChange={onSelectFile}
                                 accept=".png, .jpeg, .jpg"
-                                name="imagen"
+                                name="avatar"
                               />
                               Subir Imagen
                             </Button>

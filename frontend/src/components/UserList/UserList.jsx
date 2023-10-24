@@ -10,12 +10,7 @@ import {
     Avatar
 } from '@mui/material';
 
-import Comment from '../Comment/Comment';
 import User from '../User/User';
-
-const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non felis a elit egestas dictum id eget diam. Aenean nisi est, malesuada quis molestie nec, auctor id tortor. Proin vel diam id quam lacinia molestie. Sed elementum hendrerit nisi nec volutpat. Sed elementum, orci nec consequat hendrerit, erat elit vestibulum eros, a hendrerit urna tellus vel ex. Quisque pretium, orci nec rhoncus fermentum, justo lorem tincidunt turpis, sed pretium libero odio et nisl. Etiam ultricies massa eu tristique sodales. Suspendisse feugiat quis magna vel condimentum. Nulla consectetur fermentum pharetra. Quisque egestas libero aliquam, semper tellus sed, cursus leo. Vestibulum vel neque commodo, mattis sem a, viverra lacus. Cras sit amet vestibulum velit, et mattis odio. Nam nec malesuada odio. Praesent quam velit, mollis fringilla imperdiet eget, viverra non ipsum. In at ante mattis, vulputate nulla vitae, aliquet turpis. Donec lacinia mattis est, sit amet dictum tellus ultrices et. '
-
-const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
 
 const users = [
     {
@@ -41,38 +36,50 @@ const users = [
         nombre: 'Jane Smith',
         comentario: 'Sed suscipit hendrerit risus, eget feugiat lectus ornare eu. Suspendisse tempus vel ex id imperdiet.',
         foto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-    }
+    },
+    
 ]
 
-function UserList() {
+function UserList(props) {
+
+    const { solicitudes=false } = props
 
     return (
         <Grid 
             // container
             height="80vh"
             width="60%"
-            xs={12}  
-            sx={{ mt:2, pb:3, borderRadius: 3, px: 3, backgroundColor: '#38393a' }}  
+            xs={6}  
+            sx={{ mt:2, pb:3, borderRadius: 3, px: 3, backgroundColor: '#38393a', mx:1 }}  
             component={Paper} 
             justifyContent='center'
-            overflow={'auto'}
+            
         >
             <Typography
                 variant="h5"
                 sx={{ textAlign: 'left', mt: 2, pt:3, color: '#ffffff'}}
             >
-                Usuarios
+                {solicitudes ? 'Mis solicitudes de amistad' : 'Usuarios'}
             </Typography>
+
+            <Box
+                overflow={'auto'}
+                height="90%"
+                sx={{ pr: 1.5}}
+            >
+                {
+                    users.map((user) => (
+                        <User
+                            key={user.id}
+                            nombre={user.nombre}
+                            foto={user.foto}
+                            solicitudes={solicitudes}
+                        />
+                    ))
+                }
+            </Box>
             
-            {
-                users.map((user) => (
-                    <User
-                        key={user.id}
-                        nombre={user.nombre}
-                        foto={user.foto}
-                    />
-                ))
-            }
+            
             
         </Grid>
     )
