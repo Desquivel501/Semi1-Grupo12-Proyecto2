@@ -33,7 +33,7 @@ const users = [
     }
 ]
 
-function UserChatList() {
+function UserChatList({friends, selectFriend}) {
 
     return (
         <Grid 
@@ -55,7 +55,7 @@ function UserChatList() {
                 overflow={'auto'}
             >
             {
-                users.map((user, i) => (
+                friends.map((user, i) => (
                     <Grid
                         key={i}
                         container
@@ -72,17 +72,18 @@ function UserChatList() {
                                     borderRadius: '50%', 
                                 }}
                                 alt="logo"
-                                src={user.foto}
+                                src={user.image}
                             />
                         </Grid>
                         
                         <Grid item xs={7} sx={{ border: 0, pl:1 }}>
                             
                             <Typography
+                                onClick={()=>selectFriend(user)}
                                 variant="h5"
                                 sx={{ textAlign: 'left', color: '#ffffff'}}
                             >
-                                {user.nombre}
+                                {user.name+" "+user.family_name}
                             </Typography>
 
                         </Grid>
