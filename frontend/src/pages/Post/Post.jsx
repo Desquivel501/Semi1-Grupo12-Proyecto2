@@ -6,7 +6,7 @@ import {
 
 import Comments from '../../components/Comments/Comments';
 
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { getCurrentUser } from '../../auth/auth';
 
@@ -91,9 +91,10 @@ function Post() {
                         labels={post.Tags}
                         date={post.date}
                         id={post.pib_id}
+                        translate={true}
                     />
 
-                    <Comments />
+                    <Comments id={id}/>
                 
                 </Grid>
 

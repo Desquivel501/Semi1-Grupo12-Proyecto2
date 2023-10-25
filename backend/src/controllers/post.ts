@@ -33,6 +33,7 @@ export class PostController {
 
   static async addComment(req: Request, res: Response) {
     try {
+      console.log(req.body);
       const { email, text, post } = req.body;
       if (!email || !text || !post) {
         return res.status(400).json({ MESSAGE: "Faltan datos" });

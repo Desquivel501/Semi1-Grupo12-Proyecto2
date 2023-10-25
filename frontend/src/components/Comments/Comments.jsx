@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { 
     Grid,
     Paper,
@@ -11,39 +11,43 @@ import {
 } from '@mui/material';
 
 import Comment from '../Comment/Comment';
+import CreateComment from '../CreateComment/CreateComment';
+import { AuthContext } from "../../auth/authProvider";
+import { getData } from '../../api/api';
 
-const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non felis a elit egestas dictum id eget diam. Aenean nisi est, malesuada quis molestie nec, auctor id tortor. Proin vel diam id quam lacinia molestie. Sed elementum hendrerit nisi nec volutpat. Sed elementum, orci nec consequat hendrerit, erat elit vestibulum eros, a hendrerit urna tellus vel ex. Quisque pretium, orci nec rhoncus fermentum, justo lorem tincidunt turpis, sed pretium libero odio et nisl. Etiam ultricies massa eu tristique sodales. Suspendisse feugiat quis magna vel condimentum. Nulla consectetur fermentum pharetra. Quisque egestas libero aliquam, semper tellus sed, cursus leo. Vestibulum vel neque commodo, mattis sem a, viverra lacus. Cras sit amet vestibulum velit, et mattis odio. Nam nec malesuada odio. Praesent quam velit, mollis fringilla imperdiet eget, viverra non ipsum. In at ante mattis, vulputate nulla vitae, aliquet turpis. Donec lacinia mattis est, sit amet dictum tellus ultrices et. '
+function Comments(props) {
 
-const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
+    const { id } = props; 
+    const { user} = useContext(AuthContext);
 
-const comments = [
-    {
-        id: 1,
-        nombre: 'John Smith',
-        comentario: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec lorem leo.',
-        foto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-    },
-    {
-        id: 2,
-        nombre: 'Mary Smith',
-        comentario: 'Praesent cursus vulputate varius. Aenean porttitor eros a turpis rutrum pretium.',
-        foto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-    },
-    {
-        id: 3,
-        nombre: 'Luis Smith',
-        comentario: 'Nulla ac sapien vel nulla elementum fermentum ac in est.',
-        foto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-    },
-    {
-        id: 4,
-        nombre: 'Jane Smith',
-        comentario: 'Sed suscipit hendrerit risus, eget feugiat lectus ornare eu. Suspendisse tempus vel ex id imperdiet.',
-        foto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+    const [comments, setComments] = useState([]);
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        const start = async () => {
+            try {
+               
+                const endpoint = `/posts/${id}/comments`
+
+                const res = await getData({endpoint})
+                console.log(res)
+
+                if(Array.isArray(res)){
+                    setComments(res)
+                }
+
+
+            } catch (err) {
+                // not logged in
+                console.log(err)
+            }
+        }
+        start()
+    }, [count])
+
+    const updateComments = (comment) => {
+        setCount(count + 1)
     }
-]
-
-function Comments() {
 
     return (
         <Grid 
@@ -59,13 +63,16 @@ function Comments() {
             >
                 Comentarios
             </Typography>
+
+            <CreateComment id={id} onChange={updateComments}/>
             
-            {comments.map((comment) => (
+            {comments.map((comment, i) => (
                 <Comment 
-                    key={comment.id}
-                    nombre={comment.nombre}
-                    comentario={comment.comentario}
-                    foto={comment.foto}
+                    key={i}
+                    nombre={comment.name + " " + comment.family_name}
+                    comentario={comment.content}
+                    foto={comment.avatar}
+                    date={comment.date}
                 />
             ))}
             

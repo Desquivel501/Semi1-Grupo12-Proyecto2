@@ -62,14 +62,3 @@ export async function postData({ endpoint, data }) {
     .then((res) => res.json())
     .catch((er) => console.log(er));
 }
-
-
-export async function translate({ data }) {
-
-  return fetch(`${API_TRANSLATE}`,{
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .catch((er) => console.log(er));
-}

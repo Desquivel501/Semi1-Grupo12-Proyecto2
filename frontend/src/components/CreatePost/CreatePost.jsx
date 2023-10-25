@@ -71,7 +71,7 @@ function CreatePost() {
                 icon: 'success',
                 showConfirmButton: false,
             }).then(() => {
-                window.location.reload();
+                navigate(0)
             })
         }else{
             Swal.fire({
