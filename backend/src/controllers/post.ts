@@ -35,7 +35,7 @@ export class PostController {
     try {
       const { email, text, post } = req.body;
       if (!email || !text || !post) {
-        res.status(400).json({ MESSAGE: "Faltan datos" });
+        return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await PostModel.addComment(email, post, text);
       if (message != null) {
@@ -52,7 +52,7 @@ export class PostController {
     try {
       const { tag, post } = req.body;
       if (!tag || !post) {
-        res.status(400).json({ MESSAGE: "Faltan datos" });
+        return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await PostModel.addTagToPost(post, tag);
       if (message != null) {
@@ -88,11 +88,28 @@ export class PostController {
     }
   }
 
+  static async getPost(req: Request, res: Response) {
+    try {
+      const { id } = req.query;
+      if (!id) {
+        return res.status(400).json({ MESSAGE: "Faltan el id" });
+      }
+      const message = await PostModel.getPost(parseInt(id.toString()));
+      if (message != null) {
+        return res.status(200).json(message);
+      }
+      res.status(400).json({ MESSAGE: "Error al obtener publicación" });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ MESSAGE: "Error al obtener publicación" });
+    }
+  }
+
   static async getPosts(req: Request, res: Response) {
     try {
       const { email } = req.params;
       if (!email) {
-        res.status(400).json({ MESSAGE: "Faltan el correo" });
+        return res.status(400).json({ MESSAGE: "Faltan el correo" });
       }
       const message = await PostModel.getPosts(email);
       if (message != null) {
@@ -109,7 +126,7 @@ export class PostController {
     try {
       const { post } = req.params;
       if (!post) {
-        res.status(400).json({ MESSAGE: "Faltan el id de la publicación" });
+        return res.status(400).json({ MESSAGE: "Faltan el id de la publicación" });
       }
       const message = await PostModel.getPostComments(parseInt(post));
       if (message != null) {

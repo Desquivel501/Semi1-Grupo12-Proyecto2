@@ -13,3 +13,4 @@ postRouter.post("/addTag", PostController.addTagToPost);
 postRouter.get("/tags", PostController.getAllTags);
 postRouter.get("/:email", PostController.getPosts);
 postRouter.get("/:post/comments", PostController.getPostComments);
+postRouter.get("", PostController.getPost);
