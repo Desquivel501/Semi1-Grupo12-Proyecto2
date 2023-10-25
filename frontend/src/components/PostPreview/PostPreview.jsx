@@ -12,15 +12,41 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 
+import moment from 'moment'
+// import 'moment/min/locales';
+
 const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non felis a elit egestas dictum id eget diam. Aenean nisi est, malesuada quis molestie nec, auctor id tortor. Proin vel diam id quam lacinia molestie. Sed elementum hendrerit nisi nec volutpat. Sed elementum, orci nec consequat hendrerit, erat elit vestibulum eros, a hendrerit urna tellus vel ex. Quisque pretium, orci nec rhoncus fermentum, justo lorem tincidunt turpis, sed pretium libero odio et nisl. Etiam ultricies massa eu tristique sodales. Suspendisse feugiat quis magna vel condimentum. Nulla consectetur fermentum pharetra. Quisque egestas libero aliquam, semper tellus sed, cursus leo. Vestibulum vel neque commodo, mattis sem a, viverra lacus. Cras sit amet vestibulum velit, et mattis odio. Nam nec malesuada odio. Praesent quam velit, mollis fringilla imperdiet eget, viverra non ipsum. In at ante mattis, vulputate nulla vitae, aliquet turpis. Donec lacinia mattis est, sit amet dictum tellus ultrices et. '
 
-const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
+// const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
+
+
+let localeData = moment.updateLocale('es-us', {
+    relativeTime: {
+        future: "en %s",
+        past: "hace %s",
+        s: 'unos segundos',
+        ss: '%d segundos',
+        m: "un minuto",
+        mm: "%d minutos",
+        h: "una hora",
+        hh: "%d horas",
+        d: "un dia",
+        dd: "%d dias",
+        M: "un mes",
+        MM: "%d meses",
+        y: "un año",
+        yy: "%d años"
+    }
+});
 
 function PostPreview(props) {
 
-    const { avatar, name, text, picture  } = props
+    const { avatar, name, text, picture, labels = [], date } = props
 
     const navigate = useNavigate();
+
+    // moment.locale("es"); 
+    // moment().format('LLLL'); // miércoles, 25 de octubre de 2023 10:59 AM
 
     return (
         <Grid 
@@ -47,7 +73,7 @@ function PostPreview(props) {
                           borderRadius: '50%',  
                         }}
                         alt="logo"
-                        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                        src={avatar}
                     />
                 </Grid>
                 
@@ -57,14 +83,14 @@ function PostPreview(props) {
                         variant="h5"
                         sx={{ textAlign: 'left', mt: 2, color: '#ffffff'}}
                     >
-                        John Smith
+                        {name}
                     </Typography>
 
                     <Typography
                         variant="h6"
                         sx={{ textAlign: 'left', mb: 1, color: '#d2d3d3' }}
                     >
-                        6h ago
+                        {moment(moment.utc(date).local()).fromNow()}
                     </Typography>
 
                 </Grid>
@@ -75,7 +101,7 @@ function PostPreview(props) {
                         component="p"
                         sx={{ textAlign: 'left', mt: 1, mb: 2, color: '#ffffff' }}
                     >
-                        {loremIpsum}
+                        {text}
                     </Typography>
                 </Grid>
 
@@ -88,7 +114,7 @@ function PostPreview(props) {
                         borderRadius: '5px',  
                         }}
                         alt="Logo"
-                        src='https://images.unsplash.com/photo-1612441804231-77a36b284856?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bW91bnRhaW4lMjBsYW5kc2NhcGV8ZW58MHx8MHx8fDA%3D&w=1000&q=80'
+                        src={picture}
                     />
 
                 </Grid>
@@ -102,10 +128,12 @@ function PostPreview(props) {
                         {labels.map((label, i) => {
                             return i < 10 ?
                             <Button
+                                key={i}
                                 variant="contained"
                                 size="small"
                                 sx={{ 
                                     mr: 1, 
+                                    mt: 1,
                                     backgroundColor: '#d2d3d3', 
                                     color: '#000000',
                                     "&:hover": {

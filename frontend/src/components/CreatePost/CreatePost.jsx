@@ -13,10 +13,11 @@ import {
 } from '@mui/material';
 
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../auth/authProvider";
 
 import { sendFormData } from '../../api/api';
+import Swal from 'sweetalert2';
 
 const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non felis a elit egestas dictum id eget diam. Aenean nisi est, malesuada quis molestie nec, auctor id tortor. Proin vel diam id quam lacinia molestie. Sed elementum hendrerit nisi nec volutpat. Sed elementum, orci nec consequat hendrerit, erat elit vestibulum eros, a hendrerit urna tellus vel ex. Quisque pretium, orci nec rhoncus fermentum, justo lorem tincidunt turpis, sed pretium libero odio et nisl. Etiam ultricies massa eu tristique sodales. Suspendisse feugiat quis magna vel condimentum. Nulla consectetur fermentum pharetra. Quisque egestas libero aliquam, semper tellus sed, cursus leo. Vestibulum vel neque commodo, mattis sem a, viverra lacus. Cras sit amet vestibulum velit, et mattis odio. Nam nec malesuada odio. Praesent quam velit, mollis fringilla imperdiet eget, viverra non ipsum. In at ante mattis, vulputate nulla vitae, aliquet turpis. Donec lacinia mattis est, sit amet dictum tellus ultrices et. '
 
@@ -25,6 +26,7 @@ const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
 function CreatePost() {
 
     const { user} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
@@ -61,8 +63,25 @@ function CreatePost() {
         const endpoint = '/posts/create';
 
         const res = await sendFormData({endpoint, data});
-        console.log(res);
+        // console.log(res);
 
+        if(res.TYPE == 'SUCCESS'){
+            Swal.fire({
+                title: 'Se ha creado el post!',
+                icon: 'success',
+                showConfirmButton: false,
+            }).then(() => {
+                window.location.reload();
+            })
+        }else{
+            Swal.fire({
+                title: 'Ha ocurrido un error!',
+                text: res.MESSAGE,
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     }
 
 

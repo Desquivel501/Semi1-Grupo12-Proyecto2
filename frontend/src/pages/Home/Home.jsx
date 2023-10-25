@@ -2,37 +2,47 @@
 import { 
     Grid,
     Box,
- } from '@mui/material';
- import PostPreview from '../../components/PostPreview/PostPreview';
- import CreatePost from '../../components/CreatePost/CreatePost';
- import Filtros from '../../components/Filtros/Filtros';
+} from '@mui/material';
+import PostPreview from '../../components/PostPreview/PostPreview';
+import CreatePost from '../../components/CreatePost/CreatePost';
+import Filtros from '../../components/Filtros/Filtros';
 
- import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { getSession } from '../../auth/auth';
- 
+import { getSession, getCurrentUser } from '../../auth/auth';
+import { getData } from '../../api/api';
 
 function Home() {
 
     const navigate = useNavigate();
     const [user, setUser] = useState(null)
+    const [posts, setPosts] = useState([])
 
     useEffect(() => {
-        const getCurrentUser = async () => {
+        const start = async () => {
         try {
-            const user = await getSession()
-            setUser(user)
+            const user = await getCurrentUser()
             if (user === null) {
                 navigate('/')
             }
+
+            const endpoint = `/posts/${user.email}`
+
+            const res = await getData({endpoint})
+            console.log(res)
+
+            if(Array.isArray(res)){
+                res.reverse()
+                setPosts(res)
+            }
+
         } catch (err) {
             // not logged in
             console.log(err)
-            setUser(null)
             navigate('/')
         }
         }
-        getCurrentUser()
+        start()
     }, [])
 
     return (
@@ -71,11 +81,20 @@ function Home() {
                 >
                     <CreatePost key={0}/>
                     
-                    <PostPreview key={1}/>
 
-                    <PostPreview key={2}/>
-
-                    <PostPreview key={3}/>
+                    {
+                        posts.map((post, i) => {
+                            return <PostPreview 
+                                        key={i} 
+                                        avatar={post.avatar}
+                                        name={post.name + " " + post.lastname}
+                                        text={post.description}
+                                        picture={post.image}
+                                        labels={post.Tags}
+                                        date={post.date}
+                                    />
+                        })
+                    }
                 
                 </Grid>
 
