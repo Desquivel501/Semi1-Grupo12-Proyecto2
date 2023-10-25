@@ -33,6 +33,19 @@ export class PostModel {
     }
   }
 
+  static async getPost(id: number) {
+    try {
+      const message = await connector.promise().query(
+        "CALL GetPublication(?)",
+        [id],
+      );
+      return checkRows(message);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
   static async getPosts(email: string) {
     try {
       const message = await connector.promise().query(
