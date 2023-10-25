@@ -39,14 +39,12 @@ let localeData = moment.updateLocale('es-us', {
     }
 });
 
+
 function PostPreview(props) {
 
-    const { avatar, name, text, picture, labels = [], date } = props
+    const { avatar, name, text, picture, labels = [], date, id } = props
 
     const navigate = useNavigate();
-
-    // moment.locale("es"); 
-    // moment().format('LLLL'); // miércoles, 25 de octubre de 2023 10:59 AM
 
     return (
         <Grid 
@@ -55,7 +53,7 @@ function PostPreview(props) {
             sx={{ width: "100%", mt:3, pb:3, borderRadius: 3, px: 3, cursor: 'pointer', backgroundColor: '#38393a' }}  
             component={Paper} 
             justifyContent='center'
-            onClick={() => navigate('/post/1')}
+            // onClick={() => navigate('/post/1')}
         >
 
             <Grid

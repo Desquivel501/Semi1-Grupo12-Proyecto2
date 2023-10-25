@@ -17,6 +17,11 @@ function Home() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null)
     const [posts, setPosts] = useState([])
+    const [tags, setTags] = useState([])
+    const [search, setSearch] = useState({
+        keyword: "",
+        categorias: []
+    })
 
     useEffect(() => {
         const start = async () => {
@@ -25,11 +30,21 @@ function Home() {
             if (user === null) {
                 navigate('/')
             }
-
             const endpoint = `/posts/${user.email}`
 
             const res = await getData({endpoint})
             console.log(res)
+
+            const endpoint2 = `/posts/tags`
+            const res2 = await getData({endpoint: endpoint2})
+            
+            if(Array.isArray(res2)){
+                let tags = []
+                res2.forEach((tag) => {
+                    tags.push(tag.name)
+                })
+                setTags(tags)
+            }
 
             if(Array.isArray(res)){
                 res.reverse()
@@ -44,6 +59,27 @@ function Home() {
         }
         start()
     }, [])
+
+    const handleSearch = (values) => {
+        setSearch(values);
+    };
+
+    const filterPosts = (posts) => {
+
+        if(search.categorias.length == 0){
+            return true
+        }
+
+        if(search.categorias.includes('All')){
+            return true
+        }
+
+        for(var i = 0; i < search.categorias.length; i++){
+            if(posts.Tags.includes(search.categorias[i])){
+                return true
+            }
+        }
+    }
 
     return (
         <>
@@ -68,7 +104,7 @@ function Home() {
                     alignItems="top"
                     justifyContent="center"
                 >
-                    <Filtros />
+                    <Filtros tags={tags} onChange={handleSearch}/>
        
                 </Grid>
                 
@@ -84,7 +120,8 @@ function Home() {
 
                     {
                         posts.map((post, i) => {
-                            return <PostPreview 
+                            return filterPosts(post) ? 
+                                    <PostPreview 
                                         key={i} 
                                         avatar={post.avatar}
                                         name={post.name + " " + post.lastname}
@@ -92,7 +129,9 @@ function Home() {
                                         picture={post.image}
                                         labels={post.Tags}
                                         date={post.date}
+                                        id={post.pub_id}
                                     />
+                                    : null
                         })
                     }
                 

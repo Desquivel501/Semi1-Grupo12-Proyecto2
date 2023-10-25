@@ -10,9 +10,10 @@ import { useState } from "react";
 
 function Filtros(props) {
 
-    const {onChange} = props;
+    const {onChange, tags = []} = props;
     
     const [etiquetas, setEtiquetas] = useState(['All', 'Landscape', 'Photography', 'Nature', 'Sunset', 'Green'])
+    const [categoria, setCategoria] = useState([])
     const [search, setSearch] = useState("")
 
 
@@ -40,6 +41,7 @@ function Filtros(props) {
     }
 
     const handlePress = (text) => {
+        setCategoria([])
         setSearch(text)
         onChange(
             {
@@ -47,6 +49,17 @@ function Filtros(props) {
                 categorias: categoria
             }
         )
+    }
+
+    const filterTags = (tag) => {
+        
+        const str = tag.toLowerCase();
+        const substr = search.toLowerCase();
+
+        if (!str.includes(substr)) {
+            return false;
+        }
+        return true;
     }
 
     const checkColor = {
@@ -61,6 +74,7 @@ function Filtros(props) {
             item
             xs={12}
             sx={{border:0}}
+            
         >
             <Grid
                 container
@@ -82,6 +96,7 @@ function Filtros(props) {
                     justifyContent="center"
                     alignItems="center"
                     sx={{ border:0, mb:2}}
+                    
                 >
                     <Grid
                         item
@@ -98,26 +113,50 @@ function Filtros(props) {
                             Etiquetas
                         </Typography>
                     </Grid>
-                    
 
-                    <FormGroup>
-                       {
-                         etiquetas.map((etiqueta, i) => (
+                    <Grid
+                        item
+                        xs={12} sm={12}
+                        sx={{border:0, mb:1, ml:2.5, pl:1.5}}
+                        maxHeight='500px'
+                        overflow={'auto'}
+                    >
+                        <FormGroup>
+
                             <FormControlLabel
-                                key={i}
+                                key={0}
                                 control={
                                     <Checkbox
                                         sx={checkColor}
-                                        id={etiqueta}
+                                        id='All'
                                         onChange={changeCategory}
                                     />
                                 }
-                                label={etiqueta}
+                                label='All'
                                 sx={{color: '#fff'}}
                             />
-                        ))
-                       }
-                    </FormGroup>
+
+                            {
+                                tags.map((etiqueta, i) => (
+                                    filterTags(etiqueta) ?
+                                    <FormControlLabel
+                                        key={i}
+                                        control={
+                                            <Checkbox
+                                                sx={checkColor}
+                                                id={etiqueta}
+                                                onChange={changeCategory}
+                                            />
+                                        }
+                                        label={etiqueta}
+                                        sx={{color: '#fff'}}
+                                    />
+                                    :
+                                    <></>
+                                ))
+                            }
+                        </FormGroup>
+                    </Grid>
 
                 </Grid>
 
