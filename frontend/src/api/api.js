@@ -1,4 +1,5 @@
 const API = import.meta.env.VITE_API;
+const API_TRANSLATE = import.meta.env.VITE_API_TRANSLATE;
 import { getSession } from "../auth/auth";
 
 export function registrar(data) {
@@ -57,6 +58,17 @@ export async function postData({ endpoint, data }) {
         "Access-Control-Allow-Origin_Origin": "*",
         "Content-Type": "application/json",
     },
+  })
+    .then((res) => res.json())
+    .catch((er) => console.log(er));
+}
+
+
+export async function translate({ data }) {
+
+  return fetch(`${API_TRANSLATE}`,{
+    method: "POST",
+    body: JSON.stringify(data),
   })
     .then((res) => res.json())
     .catch((er) => console.log(er));

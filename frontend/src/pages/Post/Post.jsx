@@ -6,35 +6,57 @@ import {
 
 import Comments from '../../components/Comments/Comments';
 
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { getSession } from '../../auth/auth';
+import { getCurrentUser } from '../../auth/auth';
 
 import PostPreview from '../../components/PostPreview/PostPreview';
-import CreatePost from '../../components/CreatePost/CreatePost';
+import { getData } from '../../api/api';
 
 function Post() {
 
     const navigate = useNavigate();
     const [user, setUser] = useState(null)
 
+    const [post, setPost] = useState({
+        pib_id: 0,
+        name: "",
+        lastname: "",
+        avatar: "",
+        date: "",
+        description: "",
+        image: "",
+        Tags: [],
+        email: "",
+    })
+
+    const { id } = useParams();
+
     useEffect(() => {
-        const getCurrentUser = async () => {
-        try {
-            const user = await getSession()
-            setUser(user)
-            if (user === null) {
+        const start = async () => {
+            try {
+                const user = await getCurrentUser()
+                if (user === null) {
+                    navigate('/')
+                }
+
+                const endpoint = `/posts/?id=${id}`
+
+                const res = await getData({endpoint})
+                console.log(res)
+
+                if(Array.isArray(res)){
+                    setPost(res[0])
+                }
+
+
+            } catch (err) {
+                // not logged in
+                console.log(err)
                 navigate('/')
             }
-        } catch (err) {
-            // not logged in
-            console.log(err)
-            setUser(null)
-            navigate('/')
         }
-        }
-        getCurrentUser()
+        start()
     }, [])
 
     return (
@@ -61,7 +83,15 @@ function Post() {
                     justifyContent="center"
                 >
 
-                    <PostPreview />
+                    <PostPreview 
+                        avatar={post.avatar}
+                        name={post.name + " " + post.lastname}
+                        text={post.description}
+                        picture={post.image}
+                        labels={post.Tags}
+                        date={post.date}
+                        id={post.pib_id}
+                    />
 
                     <Comments />
                 
