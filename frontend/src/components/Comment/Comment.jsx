@@ -10,13 +10,29 @@ import {
     Avatar
 } from '@mui/material';
 
-const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non felis a elit egestas dictum id eget diam. Aenean nisi est, malesuada quis molestie nec, auctor id tortor. Proin vel diam id quam lacinia molestie. Sed elementum hendrerit nisi nec volutpat. Sed elementum, orci nec consequat hendrerit, erat elit vestibulum eros, a hendrerit urna tellus vel ex. Quisque pretium, orci nec rhoncus fermentum, justo lorem tincidunt turpis, sed pretium libero odio et nisl. Etiam ultricies massa eu tristique sodales. Suspendisse feugiat quis magna vel condimentum. Nulla consectetur fermentum pharetra. Quisque egestas libero aliquam, semper tellus sed, cursus leo. Vestibulum vel neque commodo, mattis sem a, viverra lacus. Cras sit amet vestibulum velit, et mattis odio. Nam nec malesuada odio. Praesent quam velit, mollis fringilla imperdiet eget, viverra non ipsum. In at ante mattis, vulputate nulla vitae, aliquet turpis. Donec lacinia mattis est, sit amet dictum tellus ultrices et. '
-
-const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
+import moment from 'moment'
+let localeData = moment.updateLocale('es-us', {
+    relativeTime: {
+        future: "en %s",
+        past: "hace %s",
+        s: 'unos segundos',
+        ss: '%d segundos',
+        m: "un minuto",
+        mm: "%d minutos",
+        h: "una hora",
+        hh: "%d horas",
+        d: "un dia",
+        dd: "%d dias",
+        M: "un mes",
+        MM: "%d meses",
+        y: "un año",
+        yy: "%d años"
+    }
+});
 
 function Comment(props) {
 
-    const { nombre, comentario, foto } = props
+    const { nombre, comentario, foto, date } = props
 
     return (
         <Grid
@@ -48,8 +64,15 @@ function Comment(props) {
                 </Typography>
 
                 <Typography
+                    variant="subtitle1"
+                    sx={{ color: '#d2d3d3', textAlign: 'left !important' }}
+                >
+                    {moment(moment.utc(date).local()).fromNow()}
+                </Typography>
+
+                <Typography
                     variant="h6"
-                    sx={{ textAlign: 'left', mb: 1, color: '#d2d3d3' }}
+                    sx={{ textAlign: 'left', mb: 1, color: '#e8e9e9' }}
                 >
                     {comentario}
                 </Typography>

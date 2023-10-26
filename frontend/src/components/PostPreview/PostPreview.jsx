@@ -7,18 +7,70 @@ import {
     Box,
     Button,
     Typography,
-    Avatar
+    Avatar,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    Select,
 } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 
-const loremIpsum  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non felis a elit egestas dictum id eget diam. Aenean nisi est, malesuada quis molestie nec, auctor id tortor. Proin vel diam id quam lacinia molestie. Sed elementum hendrerit nisi nec volutpat. Sed elementum, orci nec consequat hendrerit, erat elit vestibulum eros, a hendrerit urna tellus vel ex. Quisque pretium, orci nec rhoncus fermentum, justo lorem tincidunt turpis, sed pretium libero odio et nisl. Etiam ultricies massa eu tristique sodales. Suspendisse feugiat quis magna vel condimentum. Nulla consectetur fermentum pharetra. Quisque egestas libero aliquam, semper tellus sed, cursus leo. Vestibulum vel neque commodo, mattis sem a, viverra lacus. Cras sit amet vestibulum velit, et mattis odio. Nam nec malesuada odio. Praesent quam velit, mollis fringilla imperdiet eget, viverra non ipsum. In at ante mattis, vulputate nulla vitae, aliquet turpis. Donec lacinia mattis est, sit amet dictum tellus ultrices et. '
+import moment from 'moment'
 
-const labels = ['Landscape', 'Photography', 'Nature', 'Sunset', 'Green']
+import { postData } from '../../api/api';
 
-function PostPreview() {
+
+let localeData = moment.updateLocale('es-us', {
+    relativeTime: {
+        future: "en %s",
+        past: "hace %s",
+        s: 'unos segundos',
+        ss: '%d segundos',
+        m: "un minuto",
+        mm: "%d minutos",
+        h: "una hora",
+        hh: "%d horas",
+        d: "un dia",
+        dd: "%d dias",
+        M: "un mes",
+        MM: "%d meses",
+        y: "un año",
+        yy: "%d años"
+    }
+});
+
+
+function PostPreview(props) {
+
+    const { avatar, name, text, picture, labels = [], date, id, translate } = props
+
+    const [language, setLanguage] = useState('es')
+    const [textTranslated, setTextTranslated] = useState(null)
 
     const navigate = useNavigate();
+
+    const handleChange = async (event) => {
+        setLanguage(event.target.value);
+
+        if(event.target.value === 'es'){
+            setTextTranslated(text)
+        } else {
+            
+            const data = {
+                text: text,
+                targetLanguage: event.target.value,
+                sourceLanguage: "es"
+            }
+
+            const endpoint = `/posts/translate`
+            const res = await postData({endpoint, data})
+
+            if(res){
+                setTextTranslated(res.translatedText)
+            }
+        }
+    };
 
     return (
         <Grid 
@@ -27,7 +79,7 @@ function PostPreview() {
             sx={{ width: "100%", mt:3, pb:3, borderRadius: 3, px: 3, cursor: 'pointer', backgroundColor: '#38393a' }}  
             component={Paper} 
             justifyContent='center'
-            onClick={() => navigate('/post/1')}
+            onClick={() => translate ? null : navigate(`/post/${id}`)}
         >
 
             <Grid
@@ -45,7 +97,7 @@ function PostPreview() {
                           borderRadius: '50%',  
                         }}
                         alt="logo"
-                        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                        src={avatar}
                     />
                 </Grid>
                 
@@ -55,17 +107,44 @@ function PostPreview() {
                         variant="h5"
                         sx={{ textAlign: 'left', mt: 2, color: '#ffffff'}}
                     >
-                        John Smith
+                        {name}
                     </Typography>
 
                     <Typography
                         variant="h6"
                         sx={{ textAlign: 'left', mb: 1, color: '#d2d3d3' }}
                     >
-                        6h ago
+                        {moment(moment.utc(date).local()).fromNow()}
                     </Typography>
 
                 </Grid>
+
+                {
+                    translate ?
+                        text != '' ?
+                            <Grid item xs={4} alignSelf={'right'}
+                            sx={{ border: 0, mt: 2 }}>
+                            <FormControl fullWidth>
+                                <InputLabel sx={{color:'#fff'}}>Lenguaje</InputLabel>
+                                <Select
+                                    value={language}
+                                    label="languaje"
+                                    onChange={handleChange}
+                                    sx={{ color: '#ffffff'}}
+                                >
+                                    <MenuItem value={'es'}>Original</MenuItem>
+                                    <MenuItem value={'en'}>Ingles</MenuItem>
+                                    <MenuItem value={'fr'}>Frances</MenuItem>
+                                    <MenuItem value={'de'}>Aleman</MenuItem>
+                                    <MenuItem value={'ja'}>Japones</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        :
+                        <></>
+                    :
+                    <></>
+                }
                 
                 <Grid item xs={12} sx={{ border: 0 }}>
                     <Typography
@@ -73,7 +152,7 @@ function PostPreview() {
                         component="p"
                         sx={{ textAlign: 'left', mt: 1, mb: 2, color: '#ffffff' }}
                     >
-                        {loremIpsum}
+                        {textTranslated ? textTranslated : text}
                     </Typography>
                 </Grid>
 
@@ -86,7 +165,7 @@ function PostPreview() {
                         borderRadius: '5px',  
                         }}
                         alt="Logo"
-                        src='https://images.unsplash.com/photo-1612441804231-77a36b284856?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bW91bnRhaW4lMjBsYW5kc2NhcGV8ZW58MHx8MHx8fDA%3D&w=1000&q=80'
+                        src={picture}
                     />
 
                 </Grid>
@@ -100,10 +179,12 @@ function PostPreview() {
                         {labels.map((label, i) => {
                             return i < 10 ?
                             <Button
+                                key={i}
                                 variant="contained"
                                 size="small"
                                 sx={{ 
                                     mr: 1, 
+                                    mt: 1,
                                     backgroundColor: '#d2d3d3', 
                                     color: '#000000',
                                     "&:hover": {

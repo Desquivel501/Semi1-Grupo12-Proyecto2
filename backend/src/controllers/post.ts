@@ -10,7 +10,8 @@ export class PostController {
     try {
       const { email, text } = req.body;
       const img = req.file as Express.MulterS3.File;
-      if (!email || !text || img.location.endsWith("f")) {
+      console.log(text);
+      if (!email || img.location.endsWith("f")) {
         return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await PostModel.createPost(email, text, img);
@@ -32,6 +33,7 @@ export class PostController {
 
   static async addComment(req: Request, res: Response) {
     try {
+      console.log(req.body);
       const { email, text, post } = req.body;
       if (!email || !text || !post) {
         return res.status(400).json({ MESSAGE: "Faltan datos" });

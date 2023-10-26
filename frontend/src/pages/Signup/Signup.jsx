@@ -69,6 +69,10 @@ export default function Signup() {
         })
       }
 
+      if(res.TYPE != 'SUCCESS') {
+        return
+      }
+
       const cognito = await signUp(data.get('dpi'), data.get('name'), data.get('lastName'), data.get('email'), data.get('password'), res.avatar)
       
       // console.log("Usuario creado exitosamente");

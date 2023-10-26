@@ -1,4 +1,5 @@
 const API = import.meta.env.VITE_API;
+const API_TRANSLATE = import.meta.env.VITE_API_TRANSLATE;
 import { getSession } from "../auth/auth";
 
 export function registrar(data) {
@@ -56,4 +57,22 @@ export async function sendJsonData({ endpoint, data }) {
   })
   .then((res) => res.json())
   .catch((err) => console.log(err));
+}
+
+export async function postData({ endpoint, data }) {
+
+  const session = await getSession();
+  const idToken = session.idToken
+
+  return fetch(`${API}${endpoint}`,{
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+        Authorization: `Bearer ${idToken.jwtToken}`,
+        "Access-Control-Allow-Origin_Origin": "*",
+        "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .catch((er) => console.log(er));
 }

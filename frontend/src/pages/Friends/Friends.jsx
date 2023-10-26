@@ -11,6 +11,7 @@ function Friends() {
     const navigate = useNavigate();
 
     const [notFriends, setNotFriends] = useState([])
+    const [pendientes, setPendientes] = useState([])
 
     useEffect(() => {
         const checkUser = async () => {
@@ -25,9 +26,9 @@ function Friends() {
             console.log(res)
             setNotFriends(res)
 
-            // endpoint = `/friends/not/${user.email}`
-            // res = await getData({endpoint})
-            // setNotFriends(res)
+            endpoint = `/friends/${user.email}/requests`
+            res = await getData({endpoint})
+            setPendientes(res)
 
             
 
@@ -46,7 +47,7 @@ function Friends() {
             justifyContent={'center'}
         >
             <UserList users={notFriends}/>
-            <UserList solicitudes={true}/>
+            <UserList solicitudes={true} users={pendientes}/>
         </Grid>
         
     )
