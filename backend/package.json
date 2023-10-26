@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"tsc && node ./dist/index.js",
+    "start": "tsc && node ./dist/index.js",
     "dev": "tsc-watch --OnSuccess \"node ./dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +24,7 @@
     "typescript": "5.2.2"
   },
   "dependencies": {
+    "@aws-sdk/client-lex-runtime-v2": "3.436.0",
     "@aws-sdk/client-rekognition": "3.427.0",
     "@aws-sdk/client-s3": "3.405.0",
     "@aws-sdk/client-translate": "3.427.0",

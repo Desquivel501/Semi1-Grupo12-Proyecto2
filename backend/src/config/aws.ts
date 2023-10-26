@@ -23,3 +23,12 @@ export const configTranslate: AwsConfig = {
   },
   region: process.env.AWS_REGION as string,
 };
+
+
+export const configLex: AwsConfig = {
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_LEX as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_LEX as string,
+  },
+  region: process.env.AWS_REGION_LEX as string,
+};
