@@ -55,7 +55,7 @@ function ChatBot() {
       <Box
         component="main"
         display="flex"
-        width="45vw"
+        width="80vw"
         height="80vh"
         sx={{
           flexGrow: 1,

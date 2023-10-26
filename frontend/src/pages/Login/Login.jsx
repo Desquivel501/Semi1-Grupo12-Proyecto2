@@ -47,13 +47,6 @@ export default function Login() {
         showConfirmButton: false
       })
     }
-
-    console.log(user)
-    
-    // console.log(event.target.dpi.value, event.target.name.value, event.target.lastname.value, event.target.email.value, event.target.password.value);
-    // const res = await getSession(event.target.email.value, event.target.password.value)
-    // console.log(res);
-
     event.target.reset();
   };
 
