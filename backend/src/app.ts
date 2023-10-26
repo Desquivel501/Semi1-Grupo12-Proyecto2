@@ -11,6 +11,7 @@ import { postRouter } from "./routes/post";
 import { friendsRouter } from "./routes/friend";
 import { checkToken } from "./middlewares/jwt";
 import { chat } from "./libs/socketIo";
+import { chatBotRouter } from "./routes/chatBot";
 
 const app = express();
 const server = createServer(app);
@@ -29,6 +30,7 @@ app.use("/api", authRouter);
 app.use("/api/users", checkToken, userRouter);
 app.use("/api/friends", checkToken, friendsRouter);
 app.use("/api/posts", checkToken, postRouter);
+app.use("/api/chatBot", checkToken, chatBotRouter);
 
 chat(io);
 
