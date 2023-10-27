@@ -21,12 +21,24 @@ function Message(props) {
 
   const align = left ? "left" : "right";
   const color = left ? "#737475" : "#0a1a42";
+
   const fecha = new Date(date);
   const dia = fecha.getDate();
   const mes = fecha.getMonth();
   const año = fecha.getFullYear();
 
-  const fechaFormateada = `${dia} de ${meses[mes]} ${año}`;
+  // const fechaFormateada = `${dia} de ${meses[mes]} ${año}`;
+
+  const fechaFormateada = fecha.toLocaleString();
+
+  const parseLines = (text) => {
+    const lines = text.split("\\n");
+    return lines.map((line, index) => (
+      <Typography key={index} variant="h6" sx={{ textAlign: "left", color: "#ffffff", whiteSpace:'pre-wrap' }}>
+        {line}
+      </Typography>
+    ));
+  };
 
   return (
     <Grid
@@ -67,12 +79,13 @@ function Message(props) {
             ml: !left ? 1 : 0,
           }}
         >
-          <Typography
+          {/* <Typography
             variant="h6"
-            sx={{ textAlign: "left", color: "#ffffff" }}
+            sx={{ textAlign: "left", color: "#ffffff", whiteSpace: "pre-line" }}
           >
             {message}
-          </Typography>
+          </Typography> */}
+          {parseLines(message)}
         </Grid>
 
         {left &&
