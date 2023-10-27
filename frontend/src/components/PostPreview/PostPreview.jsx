@@ -47,6 +47,7 @@ function PostPreview(props) {
 
     const [language, setLanguage] = useState('es')
     const [textTranslated, setTextTranslated] = useState(null)
+    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -101,7 +102,7 @@ function PostPreview(props) {
                     />
                 </Grid>
                 
-                <Grid item xs={10} sx={{ border: 0 }}>
+                <Grid item xs={9} sx={{ border: 0 }}>
                     
                     <Typography
                         variant="h5"
@@ -122,24 +123,42 @@ function PostPreview(props) {
                 {
                     translate ?
                         text != '' ?
-                            <Grid item xs={4} alignSelf={'right'}
-                            sx={{ border: 0, mt: 2 }}>
-                            <FormControl fullWidth>
-                                <InputLabel sx={{color:'#fff'}}>Lenguaje</InputLabel>
-                                <Select
-                                    value={language}
-                                    label="languaje"
-                                    onChange={handleChange}
-                                    sx={{ color: '#ffffff'}}
-                                >
-                                    <MenuItem value={'es'}>Original</MenuItem>
-                                    <MenuItem value={'en'}>Ingles</MenuItem>
-                                    <MenuItem value={'fr'}>Frances</MenuItem>
-                                    <MenuItem value={'de'}>Aleman</MenuItem>
-                                    <MenuItem value={'ja'}>Japones</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
+                            <Grid item xs={1} alignSelf={'right'}
+                                sx={{ border: 0, mt: 2 }}>
+                                {/* <FormControl fullWidth>
+                                    <InputLabel sx={{color:'#fff'}}>Lenguaje</InputLabel>
+                                    <Select
+                                        value={language}
+                                        label="languaje"
+                                        onChange={handleChange}
+                                        sx={{ color: '#ffffff'}}
+                                    >
+                                        <MenuItem value={'es'}>Original</MenuItem>
+                                        <MenuItem value={'en'}>Ingles</MenuItem>
+                                        <MenuItem value={'fr'}>Frances</MenuItem>
+                                        <MenuItem value={'de'}>Aleman</MenuItem>
+                                        <MenuItem value={'ja'}>Japones</MenuItem>
+                                    </Select>
+                                </FormControl> */}
+                                 <FormControl fullWidth>
+                                    {/* <InputLabel sx={{color:'#fff'}}>Lenguaje</InputLabel> */}
+                                    <Select
+                                        open={open}
+                                        onClose={() => setOpen(false)}
+                                        onOpen={() => setOpen(true)}
+                                        value={language}
+                                        // label="languaje"
+                                        onChange={handleChange}
+                                        sx={{ color: '#ffffff', fontSize:'large'}}
+                                    >
+                                        <MenuItem value={'es'} >{open ? 'Español' : '🇪🇸'}</MenuItem>
+                                        <MenuItem value={'en'}>{open ? 'Ingles' : '🇺🇸'}</MenuItem>
+                                        <MenuItem value={'fr'}>{open ? 'Frances' : '🇫🇷'}</MenuItem>
+                                        <MenuItem value={'de'}>{open ? 'Aleman' : '🇩🇪'}</MenuItem>
+                                        <MenuItem value={'ja'}>{open ? 'Japones' : '🇯🇵'}</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
                         :
                         <></>
                     :
