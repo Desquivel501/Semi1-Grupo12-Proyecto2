@@ -12,6 +12,7 @@ function ChatBot() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [conversation, setConversation] = useState([]);
+
   const botInfo = {
     image:
       "https://t4.ftcdn.net/jpg/03/51/61/49/360_F_351614912_nhPej8tYdn8gytfBnBPag8HBUt2vaznE.jpg",
@@ -37,12 +38,14 @@ function ChatBot() {
     };
     start();
   }, []);
+
   const handleSubmit = (text) => {
     const endpoint = "/chatBot/send";
     const data = {
       email: user.email,
       text,
     };
+
     sendJsonData({ endpoint, data })
       .then((messages) => {
         const prevConversation = [...conversation]
@@ -50,6 +53,7 @@ function ChatBot() {
         setConversation(updatedConversation) 
       });
   };
+  
   return (
     <>
       <Box

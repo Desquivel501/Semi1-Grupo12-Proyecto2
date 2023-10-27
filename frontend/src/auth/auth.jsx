@@ -84,6 +84,31 @@ export function signOut() {
   }
 }
 
+export function updateUserAttributes(attributes) {
+  const cognitoUser = userPool.getCurrentUser()
+
+  if (!cognitoUser) {
+    return Promise.reject(new Error("No user found"))
+  }
+
+  return new Promise((resolve, reject) => {
+    cognitoUser.getSession((err, session) => {
+      if (err) {
+        reject(err)
+        return
+      }
+
+      cognitoUser.updateAttributes(attributes, (err, result) => {
+        if (err) {
+          reject(err)
+          return
+        }
+        resolve(result)
+      })
+    })
+  })
+}
+
 export function getCurrentUser() {
   return new Promise((resolve, reject) => {
     const cognitoUser = userPool.getCurrentUser()
