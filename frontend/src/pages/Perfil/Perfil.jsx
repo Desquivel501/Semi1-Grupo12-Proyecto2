@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { ColorExtractor } from 'react-color-extractor'
-import { Button, TextField, CssBaseline, Typography, Box } from "@mui/material";
+import { Button, TextField, CssBaseline, Typography, Box, Modal } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { alpha, styled } from '@mui/material/styles';
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getSession, getCurrentUser } from '../../auth/auth';
+
 import Swal from 'sweetalert2'
 
 const CssTextField = styled(TextField)({
@@ -32,13 +34,15 @@ const CssTextField = styled(TextField)({
 
 export default function Perfil() {
 
+    const navigate = useNavigate();
+
     const [state, setState] = useState({
         nombre: '',
         nombretemp: '',
         apellido: '',
         apellidotemp: '',
+        dpi: '',
         dpitmp: '',
-        tipo_usuario: '',
         correo: '',
         foto: 'https://ih0.redbubble.net/image.1046392278.3346/raf,360x360,075,t,fafafa:ca443f4786.jpg',
         contrasena: '',
@@ -49,39 +53,52 @@ export default function Perfil() {
     })
     const [count, setCount] = useState(0);
 
+    const [open, setOpen] =useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [open2, setOpen2] = useState(false);
+
     const close_contrasena  = (e) => {
         setState({...state, contrasena: '', nueva_contrasena: '', verificar_contrasena: ''})
+        setOpen2(false)
     }
 
-    function selectColor(str) {
+    useEffect(() => {
+        const start = async () => {
+        try {
+            const user = await getCurrentUser()
+            if (user === null) {
+                navigate('/')
+            }
 
-        if (str === undefined || str === null || str === '') {
-            setState({ ...state, color: '#787878' })
-            return;
+            console.log(user['custom:dpi'])
+
+            setState({...state,
+                nombre: user.name,
+                nombretemp: user.name,
+                apellido: user.family_name,
+                apellidotemp: user.family_name,
+                dpi: user['custom:dpi'],
+                dpitmp: user['custom:dpi'],
+                foto: user.picture,
+                preview: user.picture,
+                correo: user.email,
+            })
+
+            console.log(user)
+
+        } catch (err) {
+            // not logged in
+            console.log(err)
+            navigate('/')
         }
-
-        var whiteLimit = 200,
-            r, g, b;
-
-        r = parseInt("0x" + str.substring(1, 3));
-        g = parseInt("0x" + str.substring(3, 5));
-        b = parseInt("0x" + str.substring(5, 7));
-        if (r < whiteLimit || b < whiteLimit || g < whiteLimit) {
-            setState({ ...state, color: str })
-            return;
         }
-        setState({ ...state, color: '#787878' })
-    }
+        start()
+    }, [])
 
-    function changeColor(color, amount) {
-        const clamp = (val) => Math.min(Math.max(val, 0), 0xFF)
-        const fill = (str) => ('00' + str).slice(-2)
-
-        const num = parseInt(color.substr(1), 16)
-        const red = clamp((num >> 16) + amount)
-        const green = clamp(((num >> 8) & 0x00FF) + amount)
-        const blue = clamp((num & 0x0000FF) + amount)
-        return '#' + fill(red.toString(16)) + fill(green.toString(16)) + fill(blue.toString(16))
+    const updateData = async () => {
+        
     }
 
 
@@ -90,9 +107,7 @@ export default function Perfil() {
             <Box
                 component="form"
                 sx={{ width: '100%' }}
-
             >
-
                 <section className="vh-170">
                     <div className="container pb-3 h-80" style={{ maxWidth: '100%' }}>
                         <div className="row d-flex justify-content-center align-items-center h-50">
@@ -101,7 +116,7 @@ export default function Perfil() {
                                     <div className="row g-0" style={{ justifyContent: 'center' }}>
 
                                         <div className="col-md-12 text-center text-white pb-4"
-                                            style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem', backgroundColor: state.color }}>
+                                            style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem', backgroundColor: '#223054' }}>
                                             <img src={state.foto}
                                                 alt="Avatar" className="img-fluid my-5"
                                                 style={{
@@ -112,25 +127,8 @@ export default function Perfil() {
                                                 }}
                                                 onLoad={() => setCount(count + 1)}
                                             />
-
-                                            <ColorExtractor
-                                                key={count}
-                                                src={state.foto}
-                                                getColors={colors => {
-                                                    console.log(colors)
-                                                    selectColor(colors[0])
-                                                }}
-                                            />
-
-                                            <h3 style={{ color: '#fff' }}>Perfil</h3>
-                                            <h1>{state.nombre + ' ' + state.apellido}</h1>
-                                            <h4>{state.tipo_usuario}</h4>
-
+                                            <h1 style={{color:'#fff'}}>{state.nombre + ' ' + state.apellido}</h1>
                                         </div>
-
-
-
-
 
                                         <div className="col-md-10">
                                             <div className="row d-flex p-4">
@@ -141,8 +139,6 @@ export default function Perfil() {
                                                 <div className="row pt-1" style={{ justifyContent: 'center' }}>
                                                     <div className="col-5 mb-3">
                                                         <h5 style={{ color: '#fff' }}>Nombre</h5>
-
-                                                        {/* <input type="text" className="form-control" value={state.nombre} onChange={inputChangedHandler1} name="Nombre" placeholder="Nombre" /> */}
 
                                                         <CssTextField
                                                             margin="normal"
@@ -157,7 +153,7 @@ export default function Perfil() {
                                                     </div>
                                                     <div className="col-5 mb-3">
                                                         <h5 style={{ color: '#fff' }}>Apellido</h5>
-                                                        {/* <input type="text" className="form-control" value={state.apellido} onChange={inputChangedHandler2} name="Apellido" placeholder="Apellido" /> */}
+
                                                         <CssTextField
                                                             margin="normal"
                                                             fullWidth
@@ -168,13 +164,13 @@ export default function Perfil() {
                                                             sx={{ input: { color: '#fff' }, borderColor: '#fff' }}
                                                         />
                                                     </div>
-                                                </div>
-                                                <hr className="mt-0 mb-4" />
-                                                <div className="row pt-1" style={{ justifyContent: 'center' }}>
-                                                    <div className="col-7 mb-3">
+
+                                                    <div className="col-5 mb-3">
                                                         <h5 style={{ color: '#fff' }}>DPI</h5>
                                                         <CssTextField
                                                             margin="normal"
+                                                            fullWidth
+                                                            type='number'
                                                             id="lastname"
                                                             name="lastname"
                                                             value={state.dpitmp}
@@ -183,33 +179,38 @@ export default function Perfil() {
                                                         />
                                                     </div>
 
-                                                    <hr className="mt-0 mb-4" />
+                                                </div>
+
+                                                <hr className="mt-0 mb-4" />
+                                                <div className="row pt-1" style={{ justifyContent: 'center' }}>
+                                                    
                                                     <div className="col-7 mb-3">
                                                         <h5 style={{ color: '#fff' }}>Actualizar Foto de Perfil</h5>
-                                                        <Button className="button my-3" data-mdb-toggle="modal" data-mdb-target="#replacePictureModal"
+                                                        
+                                                        <Button className="button my-3" onClick={handleOpen}
                                                             sx={{
-                                                                background: state.color,
+                                                                background: '#7f7f7f',
                                                                 color: '#fff',
                                                                 "&:hover": {
-                                                                    background: changeColor(state.color, -30),
+                                                                    background: '#4c4c4c',
                                                                 }
                                                             }}
                                                         >
                                                             Cambiar
                                                         </Button>
+
                                                     </div>
-                                                    <hr className="mt-0 mb-4" />
+                                                    <hr className="mt-0 mb-2" />
                                                     <div className="col-7 mb-3">
                                                         <Button
-
-                                                            data-mdb-toggle="modal" data-mdb-target="#confirmModal"
+                                                            onClick={() => setOpen2(true)}
                                                             className="button my-3"
                                                             sx={{
                                                                 mx: 1,
-                                                                background: state.color,
+                                                                background: '#7f7f7f',
                                                                 color: '#fff',
                                                                 "&:hover": {
-                                                                    background: changeColor(state.color, -30),
+                                                                    background: '#4c4c4c',
                                                                 }
                                                             }}
                                                         >
@@ -251,10 +252,6 @@ export default function Perfil() {
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -262,17 +259,23 @@ export default function Perfil() {
                     </div>
                 </section>
 
-                <div className="modal fade" id="replacePictureModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                {/* <div className="modal fade" id="replacePictureModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> */}
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
                     <div className="modal-dialog">
                         <div className="modal-content" style={{ background: "#1f1f1f" }}>
                             <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Cambiar Fotografia</h5>
+                                <h5 className="modal-title" id="exampleModalLabel" style={{color: '#fff'}}>Cambiar Fotografia</h5>
                                 <button type="button" className="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
                                 <img src={state.preview}
                                     alt="Avatar" className="img-fluid my-5" style={{ width: '200px' }} />
-                                <input type="file" name="avatar" accept='.png, .jpg, .jpeg'
+                                <input type="file" name="avatar" accept='.png, .jpg, .jpeg' style={{color: '#fff'}}
                                     onChange={(e) => {
                                         setState({ ...state, preview: URL.createObjectURL(e.target.files[0]) })
                                     }}
@@ -283,26 +286,31 @@ export default function Perfil() {
 
                                 <Button className="button my-3" data-mdb-dismiss="modal"
                                     onClick={() => {
-
+                                        setState({ ...state, preview: state.foto })
+                                        setOpen(false)
                                     }}
                                     sx={{
                                         mr: 3,
-                                        background: "#9d0000",
+                                        background: '#c60004',
                                         color: '#fff',
                                         "&:hover": {
-                                            background: '#b03232'
+                                            background: '#d13236',
                                         }
                                     }}
                                 >
                                     Cancelar
                                 </Button>
 
-                                <Button className="button my-3" onClick={() => setState({ ...state, foto: state.preview })} data-mdb-dismiss="modal"
+                                <Button className="button my-3" 
+                                    onClick={() => {
+                                        setState({...state, foto: state.preview})
+                                        setOpen(false)
+                                    }}
                                     sx={{
-                                        background: "#717171",
+                                        background: "#40A347",
                                         color: '#fff',
                                         "&:hover": {
-                                            background: '#9a9a9a'
+                                            background: '#66b56b',
                                         }
                                     }}
                                 >
@@ -313,13 +321,21 @@ export default function Perfil() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </Modal>
+                {/* </div> */}
+                
 
-                <div className="modal fade" id="confirmModal" tabIndex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                {/* <div className="modal fade" id="confirmModal" tabIndex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true"> */}
+                <Modal
+                    open={open2}
+                    onClose={() => setOpen2(false)}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
                     <div className="modal-dialog">
                         <div className="modal-content" style={{ background: "#1f1f1f" }}>
                             <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Ingresar contraseña</h5>
+                                <h5 className="modal-title" id="exampleModalLabel" style={{color:'#fff'}}>Ingresar contraseña</h5>
                                 <button type="button" className="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
@@ -350,10 +366,10 @@ export default function Perfil() {
                                 <Button className="button my-3" data-mdb-dismiss="modal" onClick={close_contrasena}
                                     sx={{
                                         mr: 3,
-                                        background: "#fff",
-                                        color: '#000',
+                                        background: '#c60004',
+                                        color: '#fff',
                                         "&:hover": {
-                                            background: changeColor(state.color, 40),
+                                            background: '#d13236',
                                         }
                                     }}
                                 >
@@ -363,10 +379,10 @@ export default function Perfil() {
                                 <Button className="button my-3" data-mdb-dismiss="modal"
                                     type='submit'
                                     sx={{
-                                        background: state.color,
+                                        background: "#40A347",
                                         color: '#fff',
                                         "&:hover": {
-                                            background: changeColor(state.color, -30),
+                                            background: '#66b56b',
                                         }
                                     }}
                                 >
@@ -377,7 +393,8 @@ export default function Perfil() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </Modal>
+                {/* </div> */}
 
 
             </Box>

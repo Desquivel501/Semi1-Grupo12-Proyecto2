@@ -23,14 +23,14 @@ function AddFriends() {
 
             let endpoint = `/friends/not/${user.email}`
             let res = await getData({endpoint})
-            if(res === null){
+            if(!Array.isArray(res)){
                 res = []
             }
             setNotFriends(res)
 
             endpoint = `/friends/${user.email}/requests`
             res = await getData({endpoint})
-            if(res === null){
+            if(!Array.isArray(res)){
                 res = []
             }
             setPendientes(res)
