@@ -76,3 +76,15 @@ export async function postData({ endpoint, data }) {
     .then((res) => res.json())
     .catch((er) => console.log(er));
 }
+
+
+export async function deleteData({ endpoint }) {
+  return fetch(`${API}${endpoint}`,{
+    method: "DELETE",
+    headers: {
+        "Access-Control-Allow-Origin_Origin": "*",
+    },
+  })
+    .then((res) => res.json())
+    .catch((er) => console.log(er));
+}

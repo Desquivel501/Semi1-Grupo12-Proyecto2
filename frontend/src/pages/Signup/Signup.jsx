@@ -16,7 +16,7 @@ import { useContext, useState, useEffect } from "react";
 
 import { signUp } from "../../auth/auth";
 
-import { registrar } from "../../api/api";
+import { registrar, deleteData } from "../../api/api";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -50,38 +50,49 @@ export default function Signup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    try {
 
-      const data = new FormData(event.currentTarget);
+    const data = new FormData(event.currentTarget);
+    
+    try {  
       
       const res = await registrar(data)
 
       if(res.TYPE != 'SUCCESS') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: res.MESSAGE,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/signup");
-          }
-        })
+        let err = {}
+        err.message = res.MESSAGE
+        throw new Error(res.err)
       }
 
-      if(res.TYPE != 'SUCCESS') {
-        return
-      }
+      await signUp(data.get('dpi'), data.get('name'), data.get('lastName'), data.get('email'), data.get('password'), res.avatar)
 
-      const cognito = await signUp(data.get('dpi'), data.get('name'), data.get('lastName'), data.get('email'), data.get('password'), res.avatar)
-      
-      // console.log("Usuario creado exitosamente");
-      
-      console.log(cognito);
-
+      Swal.fire({
+        icon: 'success',
+        title: 'Usuario registrado exitosamente',
+        text: 'Por favor, asegurese de confirmar su correo electrónico',
+        showConfirmButton: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/');
+        }
+      });
 
     } catch (err) {
+
       console.log(err);
+
+      const endpoint = `/users/${data.get('email')}`
+      const del = await deleteData({endpoint})
+      console.log(del);
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(0);
+        }
+      });
     }
   
     event.target.reset();
