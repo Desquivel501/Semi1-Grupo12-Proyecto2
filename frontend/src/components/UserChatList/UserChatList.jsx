@@ -14,7 +14,7 @@ function UserChatList({friends, selectFriend}) {
 
     return (
         <Grid 
-             
+            item
             xs={4}  
             sx={{ width: "100%", height: '100%', mt:2, pb:3, borderRadius: 3, px: 3, mx:1 ,backgroundColor: '#38393a' }}  
             component={Paper} 

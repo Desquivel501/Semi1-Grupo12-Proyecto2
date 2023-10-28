@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
 
 function User(props) {
 
-    const { nombre, foto, solicitudes = false, dpi, email } = props
+    const { nombre, foto, solicitudes = false, dpi, email, friends = false } = props
 
     const { user} = useContext(AuthContext);
     const [disabled, setDisabled] = useState(false)
@@ -154,56 +154,60 @@ function User(props) {
 
             <Grid item display='flex' xs={4} sx={{ border: 0}} justifyContent="center">
 
-                {/* {solicitudes ? 'Aceptar Solicitud' : ''} */}
-
                 {
-                    solicitudes ? 
-                        aceptada == 0 ? 
-                            <>
-                                <Button
-                                    variant="contained"
-                                    disabled={disabled}
-                                    sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10', mx:1}}
-                                    onClick={aceptarSolicitud}
-                                >
-                                    Aceptar
-                                </Button>
 
-                                <Button
-                                    variant="contained"
-                                    disabled={disabled}
-                                    sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#9e1718'}}
-                                    onClick={rechazarSolicitud}
-                                >
-                                    Rechazar
-                                </Button>
-                            </>
-                            :
-                                aceptada == 1 ?
+                    !friends ? 
+                        solicitudes ? 
+                            aceptada == 0 ? 
+                                <>
                                     <Button
                                         variant="contained"
                                         disabled={disabled}
-                                        sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10'}}
+                                        sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10', mx:1}}
+                                        onClick={aceptarSolicitud}
                                     >
-                                        Amigos!
+                                        Aceptar
                                     </Button>
-                                :
+
                                     <Button
                                         variant="contained"
                                         disabled={disabled}
                                         sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#9e1718'}}
+                                        onClick={rechazarSolicitud}
                                     >
-                                        Rechazado
+                                        Rechazar
                                     </Button>
-                    :
-                    <Button
-                        variant="contained"
-                        disabled={disabled}
-                        sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: solicitudes ? '#1f6d10' : '#1976d2'}}
-                        onClick={enviarSolicitud}
-                    >
-                        {disabled ? 'Solicitud enviada' : 'Enviar solicitud'}
-                    </Button>
+                                </>
+                                :
+                                    aceptada == 1 ?
+                                        <Button
+                                            variant="contained"
+                                            disabled={disabled}
+                                            sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#1f6d10'}}
+                                        >
+                                            Amigos!
+                                        </Button>
+                                    :
+                                        <Button
+                                            variant="contained"
+                                            disabled={disabled}
+                                            sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: '#9e1718'}}
+                                        >
+                                            Rechazado
+                                        </Button>
+                        :
+                        <Button
+                            variant="contained"
+                            disabled={disabled}
+                            sx={{ textAlign: 'left', color: '#ffffff', backgroundColor: solicitudes ? '#1f6d10' : '#1976d2'}}
+                            onClick={enviarSolicitud}
+                        >
+                            {disabled ? 'Solicitud enviada' : 'Enviar solicitud'}
+                        </Button>
+
+                        : 
+
+                    null
                 }
                 
                 
