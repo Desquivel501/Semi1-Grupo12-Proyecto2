@@ -6,11 +6,12 @@ import { Grid } from '@mui/material';
 
 import { getData } from '../../api/api';
 
-function Friends() {
+function AddFriends() {
 
     const navigate = useNavigate();
 
-    const [friends, setFriends] = useState([])
+    const [notFriends, setNotFriends] = useState([])
+    const [pendientes, setPendientes] = useState([])
 
     useEffect(() => {
         const checkUser = async () => {
@@ -20,12 +21,21 @@ function Friends() {
                 navigate('/')
             }
 
-            let endpoint = `/friends/${user.email}`
+            let endpoint = `/friends/not/${user.email}`
             let res = await getData({endpoint})
             if(res === null){
                 res = []
             }
-            setFriends(res)
+            setNotFriends(res)
+
+            endpoint = `/friends/${user.email}/requests`
+            res = await getData({endpoint})
+            if(res === null){
+                res = []
+            }
+            setPendientes(res)
+
+            
 
         } catch (err) {
             // not logged in
@@ -41,10 +51,11 @@ function Friends() {
             display={'flex'}
             justifyContent={'center'}
         >
-            <UserList users={friends} friends={true}/>
+            <UserList users={notFriends}/>
+            <UserList solicitudes={true} users={pendientes}/>
         </Grid>
         
     )
 }
 
-export default Friends
+export default AddFriends

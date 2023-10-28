@@ -21,6 +21,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -114,6 +116,18 @@ function CustomAppBar() {
                   </Tooltip>
                 </Box>
 
+                <Box sx={{ borderBottom: location.pathname == '/add_friends' ? borderSettings : "", my: 2, px:3 }}>
+                  <Tooltip title="Add Friends">
+                    <IconButton
+                      aria-label="Add Friends" 
+                      onClick={() => navigate('/add_friends')}
+                      sx={{ color: 'white', display: 'block', }}
+                    >
+                      <PersonAddIcon fontSize='large'/>
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+
                 <Box sx={{ borderBottom: location.pathname == '/chat' ? borderSettings : "", my: 2, px:3 }}>
                   <Tooltip title="Chat">
                     <IconButton
@@ -199,7 +213,7 @@ function CustomAppBar() {
                       onClick={() => navigate('/signup')}
                       sx={{ color: 'white', display: 'block', }}
                     >
-                      <PersonAddIcon fontSize='large'/>
+                      <AppRegistrationIcon fontSize='large'/>
                     </IconButton>
                   </Tooltip>
                 </Box>
