@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { getSession, getCurrentUser } from '../../auth/auth';
 
 import Swal from 'sweetalert2'
-import { useNavigate } from "react-router-dom";
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -60,58 +59,6 @@ export default function Perfil() {
     const handleClose = () => setOpen(false);
 
     const [open2, setOpen2] = useState(false);
-
-
-    const handleSubmit = async (event) => {
-
-
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-       /* const mensaje = await login({
-            password: state.verificar_contrasena,
-            email: window.localStorage.getItem("id"),
-        });*/
-
-            
-       /* if(mensaje.TYPE == "SUCCESS"){
-            data.append('newEmail', window.localStorage.getItem("id"))
-            data.append('email', window.localStorage.getItem("id"))
-            data.append('birthDate', '2021-10-10')
-            data.append('password', state.verificar_contrasena)
-            if(data.get('avatar').size == 0){
-
-
-            }
-                data.set('avatar', '')
-            let endpoint = `/api/users/`;
-           /* patchData({endpoint, data})
-            .then(data => {
-                console.log(data)
-                if(data.TYPE == "SUCCESS"){
-                    Swal.fire({
-                        icon: 'success',
-                        text: 'Se actualizaron los datos correctamente',
-                        title: '¡Datos actualizados!',
-                    }).then((result) => {
-                        if(result.isConfirmed){
-                        }
-                            window.location.reload(false);
-                    })
-                } else {
-                        icon: 'error',
-                    Swal.fire({
-                        title: 'Oops...',
-                        text: data.MESSAGE,
-                    })
-        } */
-            })
-    }
-                text: "Contraseña incorrecta",
-                title: 'Oops...',
-            Swal.fire({
-
-            }) */
-                }
 
     const close_contrasena  = (e) => {
         setState({...state, contrasena: '', nueva_contrasena: '', verificar_contrasena: ''})
