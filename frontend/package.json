@@ -17,6 +17,7 @@
     "amazon-cognito-identity-js": "^6.3.6",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-color-extractor": "^1.1.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
     "socket.io-client": "^4.7.2",
