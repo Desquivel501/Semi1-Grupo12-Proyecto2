@@ -69,7 +69,7 @@ export default function Signup() {
         icon: 'success',
         title: 'Usuario registrado exitosamente',
         text: 'Por favor, asegurese de confirmar su correo electrónico',
-        showConfirmButton: false
+        showConfirmButton: true
       }).then((result) => {
         if (result.isConfirmed) {
           navigate('/');
