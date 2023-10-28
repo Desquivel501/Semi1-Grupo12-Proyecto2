@@ -7,7 +7,7 @@ export class FriendController {
     try {
       const { email, friend } = req.body;
       if (!email || !friend) {
-        res.status(400).json({ MESSAGE: "Faltan datos" });
+        return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await FriendModel.addFriend(email, friend);
       if (message != null) {
@@ -24,7 +24,7 @@ export class FriendController {
     try {
       const { email, friend } = req.body;
       if (!email || !friend) {
-        res.status(400).json({ MESSAGE: "Faltan datos" });
+        return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await FriendModel.acceptNewFriend(email, friend);
       if (message != null) {
@@ -41,7 +41,7 @@ export class FriendController {
     try {
       const { email, friend } = req.body;
       if (!email || !friend) {
-        res.status(400).json({ MESSAGE: "Faltan datos" });
+        return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await FriendModel.declineNewFriend(email, friend);
       if (message != null) {
@@ -58,7 +58,7 @@ export class FriendController {
     try {
       const { email } = req.params;
       if (!email) {
-        res.status(400).json({ MESSAGE: "Faltan el correo" });
+        return res.status(400).json({ MESSAGE: "Faltan el correo" });
       }
       const message = await FriendModel.getFriends(email);
       if (message != null) {
@@ -75,7 +75,7 @@ export class FriendController {
     try {
       const { email } = req.params;
       if (!email) {
-        res.status(400).json({ MESSAGE: "Faltan el correo" });
+        return res.status(400).json({ MESSAGE: "Faltan el correo" });
       }
       const message = await FriendModel.getNonFriends(email);
       if (message != null) {
@@ -92,7 +92,7 @@ export class FriendController {
     try {
       const { email } = req.params;
       if (!email) {
-        res.status(400).json({ MESSAGE: "Faltan el correo" });
+        return res.status(400).json({ MESSAGE: "Faltan el correo" });
       }
       const message = await FriendModel.getFriendRequests(email);
       if (message != null) {
