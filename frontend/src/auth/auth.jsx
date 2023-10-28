@@ -26,16 +26,10 @@ export function signUp(dpi, name, lastname, email, password) {
       null,
       (err, result) => {
         if (err) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: err.message,
-            showConfirmButton: false
-          })
           reject(err)
           return
         }
-        alert('Usuario registrado exitosamente')
+        // alert('Usuario registrado exitosamente')
         resolve(result.user)
       }
     )
