@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { alpha, styled } from '@mui/material/styles';
 import { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -32,6 +33,9 @@ const CssTextField = styled(TextField)({
 
 export default function Perfil() {
 
+    const navigate = useNavigate();
+    //const { logout, login } = useContext(sesionContext);
+
     const [state, setState] = useState({
         nombre: '',
         nombretemp: '',
@@ -48,6 +52,85 @@ export default function Perfil() {
         color: '#7f7f7f'
     })
     const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        const endpoint = `/api/users/${window.localStorage.getItem("id")}`;
+      /*  getDataAuth({endpoint})
+        .then(data => {
+            if(data === undefined){
+              //  logout();
+                navigate("/login");
+            }
+            setState({
+                ...state, 
+                nombre: data.firstname,
+                nombretemp:  data.firstname, 
+                apellido: data.lastname,
+                apellidotemp: data.lastname, 
+                tipo_usuario: (data.role == 0 ? 'Administrador' : 'Usuario'), 
+                correo: data.email, 
+                foto: data.photo,
+                contrasena: data.password,
+            })
+        })
+        .catch(err => console.log(err)) */
+        setCount(count + 1);
+    }, []);
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+
+       /* const mensaje = await login({
+            email: window.localStorage.getItem("id"),
+            password: state.verificar_contrasena,
+        });*/
+
+       /* if(mensaje.TYPE == "SUCCESS"){
+            
+            data.append('email', window.localStorage.getItem("id"))
+            data.append('newEmail', window.localStorage.getItem("id"))
+            data.append('password', state.verificar_contrasena)
+            data.append('birthDate', '2021-10-10')
+
+            if(data.get('avatar').size == 0){
+                data.set('avatar', '')
+            }
+
+            let endpoint = `/api/users/`;
+           /* patchData({endpoint, data})
+            .then(data => {
+                console.log(data)
+                if(data.TYPE == "SUCCESS"){
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Datos actualizados!',
+                        text: 'Se actualizaron los datos correctamente',
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            window.location.reload(false);
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.MESSAGE,
+                    })
+                }
+            }) */
+
+
+     /*   } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "Contraseña incorrecta",
+            })
+        } */
+    }
+
 
     const close_contrasena  = (e) => {
         setState({...state, contrasena: '', nueva_contrasena: '', verificar_contrasena: ''})
@@ -90,7 +173,7 @@ export default function Perfil() {
             <Box
                 component="form"
                 sx={{ width: '100%' }}
-
+                onSubmit={handleSubmit}
             >
 
                 <section className="vh-170">
