@@ -5,7 +5,7 @@ import multerS3 from "multer-s3";
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME as string;
 
 const s3Client = new S3Client(configS3);
-const fieldnames = ["avatar","img","webcam"]
+const fieldnames = ["avatar","img","webcam","upload"]
 
 export const s3Storage = multerS3({
   s3: s3Client,

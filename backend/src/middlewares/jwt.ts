@@ -10,6 +10,12 @@ export async function checkToken(req: Request, res: Response, next: any) {
       next()
       return null
     }
+
+    if(req.method == "DELETE"){
+      next()
+      return null
+    }
+
     const token = req.headers.authorization?.split(" ")[1];
     if (!token || token == "") {
       res.status(401).json({ MESSAGE: "No tiene autorización" });
