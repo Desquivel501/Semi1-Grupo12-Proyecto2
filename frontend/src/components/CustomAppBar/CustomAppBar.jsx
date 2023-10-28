@@ -164,7 +164,8 @@ function CustomAppBar() {
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="My Profile">
-                <IconButton sx={{ p: 0 }}>
+                <IconButton sx={{ p: 0 }}
+                onClick ={() => navigate('/perfil')}>
                   <Avatar alt="Profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" />
                 </IconButton>
               </Tooltip>

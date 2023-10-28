@@ -11,6 +11,7 @@ import ChatBot from './pages/ChatBot/ChatBot'
 import Friends from './pages/Friends/Friends';
 import Post from './pages/Post/Post';
 import Login from './pages/Login/Login';
+import Perfil from './pages/Perfil/Perfil';
 import Signup from './pages/Signup/Signup';
 import Landing from './pages/Landing/Landing';
 import RouteGuard from './components/Control/RouteGuard';
@@ -39,6 +40,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/chatbot" element={<ChatBot />} />
           <Route path="/add_friends" element={<AddFriends />} />
+          <Route path="/perfil" element={<Perfil />} />
           <Route path="/friends" element={<Friends />} />
           <Route path='/post/:id' element={<Post />} />
 
