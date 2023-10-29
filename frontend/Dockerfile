@@ -1,12 +1,13 @@
 # Version node
-FROM node:19.7
+FROM node
 
 #Creacion del directorio de trabajo
 WORKDIR /app
 COPY . .
 ENV HOST 0.0.0.0
 #Comando para instalar dependencias
-RUN npm install
+RUN npm install -g npm@10.2.1
+RUN npm install --force
 
 #Puerto a exponer
 EXPOSE 5173 

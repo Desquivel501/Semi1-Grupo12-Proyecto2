@@ -10,6 +10,8 @@ import { getData } from "../../api/api";
 import { io } from "socket.io-client";
 import { useRef } from "react";
 
+const SERVER_IO = import.meta.env.VITE_SERVER_IO;
+
 function Chat() {
   const socket = useRef(null);
   const [user, setUser] = useState(null);
@@ -30,7 +32,7 @@ function Chat() {
         const data = await getData({ endpoint: "/friends/" + user.email });
         setFriends(data);
         if (socket.current == null) {
-          socket.current = io("localhost:3000/chat");
+          socket.current = io(SERVER_IO);
           socket.current.on("change room", (messages) => {
             // console.log(messages);
             setConversation(messages);
