@@ -14,7 +14,7 @@ const userPool = new CognitoUserPool({
   ClientId: cognitoConfig.ClientId,
 })
 
-export function signUp(dpi, name, lastname, email, password) {
+export function signUp(dpi, name, lastname, email, password, avatar) {
 
   const attributeList = getAttributeList({ dpi, name, lastname, email, password, avatar })
 
