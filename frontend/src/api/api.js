@@ -88,3 +88,19 @@ export async function deleteData({ endpoint }) {
     .then((res) => res.json())
     .catch((er) => console.log(er));
 }
+
+export async function updateData({ endpoint, data }) {
+  const session = await getSession();
+  const idToken = session.idToken;
+
+  return fetch(`${API}${endpoint}`, {
+    method: "PATCH",
+    body: data,
+    headers: {
+      Authorization: `Bearer ${idToken.jwtToken}`,
+      "Access-Control-Allow-Origin_Origin": "*",
+    },
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+}

@@ -5,7 +5,10 @@ import { alpha, styled } from '@mui/material/styles';
 import './Perfil.css';
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getSession, getCurrentUser } from '../../auth/auth';
+import { getSession, getCurrentUser, updateUserAttributes } from '../../auth/auth';
+import { AuthContext } from "../../auth/authProvider";
+import { updateData, getData } from '../../api/api';
+import { getAttributeList } from '../../utils/GetAtributeList';
 
 import Swal from 'sweetalert2'
 
@@ -36,7 +39,7 @@ const CssTextField = styled(TextField)({
 export default function Perfil() {
 
     const navigate = useNavigate();
-    //const { logout, login } = useContext(sesionContext);
+    const { user, signIn } = useContext(AuthContext);
 
     const [state, setState] = useState({
         nombre: '',
@@ -54,7 +57,8 @@ export default function Perfil() {
         color: '#7f7f7f'
     })
     const [count, setCount] = useState(0);
-
+    const [selectedFile, setSelectedFile] = useState();
+    const [preview, setPreview] = useState();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -65,6 +69,26 @@ export default function Perfil() {
         setState({ ...state, contrasena: '', nueva_contrasena: '', verificar_contrasena: '' })
         setOpen2(false)
     }
+
+    const onSelectFile = (e) => {
+        if (!e.target.files || e.target.files.length === 0) {
+          setSelectedFile();
+          return;
+        }
+        setSelectedFile(e.target.files[0]);
+    };
+
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview();
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile);
+        setPreview(objectUrl);
+
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedFile]);
 
     useEffect(() => {
         const start = async () => {
@@ -100,16 +124,73 @@ export default function Perfil() {
         start()
     }, [])
 
-    const updateData = async () => {
+    const handleSubmit = async () => {
 
+        try {
+            await signIn(state.correo, state.verificar_contrasena)
+
+            var data = new FormData();
+            data.append('dpi', state.dpitmp);
+            data.append('name', state.nombretemp);
+            data.append('lastName', state.apellidotemp);
+            data.append('email', state.correo);
+            data.append('password', state.verificar_contrasena);
+        
+            if(selectedFile){
+                data.append('avatar', selectedFile);
+            }
+
+            const endpoint = '/users/update';
+            const res = await updateData({endpoint, data});
+            if(res.TYPE != 'SUCCESS'){
+                throw new Error('Error al actualizar los datos')
+            }
+
+            const updatedUser = await getData({endpoint: `/users/${user.email}`});
+            console.log(updatedUser);
+
+            const attributeList = getAttributeList({ 
+                dpi: state.dpitmp, 
+                name: state.nombretemp, 
+                lastname: state.apellidotemp, 
+                email: state.correo, 
+                password: state.verificar_contrasena, 
+                avatar: updatedUser.image
+             })
+
+            await updateUserAttributes(attributeList);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Se han actualizado los datos',
+                showConfirmButton: true,
+            }).then(() => {
+                navigate(0)
+            })
+
+        } catch(err) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: err.message || 'Ha ocurrido un error al actualizar los datos',
+                showConfirmButton: true,
+            })
+        }
+
+        
+
+        // const data = new FormData(event.currentTarget);
+
+        // console.log(data)
     }
 
 
     return (
         <>
             <Box
-                component="form"
-                sx={{ width: '100%' }}
+                // component="form"
+                // onSubmit={handleSubmit}
+                sx={{ width: '100%', mt: 3 }}
 
             >
                 <section className="vh-170">
@@ -124,7 +205,7 @@ export default function Perfil() {
                                             <img src={state.foto}
                                                 alt="Avatar" className="img-fluid my-5"
                                                 style={{
-                                                    width: '105px', border: 0, borderColor: '#000',
+                                                    width: '130px', border: 0, borderColor: '#000',
                                                     boxShadow: '4px 4px 10px #000000',
                                                     margin: '2em',
                                                     borderRadius: '30%',
@@ -139,21 +220,18 @@ export default function Perfil() {
                                                 <div className="row pt-1 pb-1">
                                                     <h3 style={{ color: '#fff' }}>Actualizar mis datos</h3>
                                                 </div>
-                                                
                                                 <div className="row pt-1" style={{ justifyContent: 'center' }}>
-
                                                     <div className="container">
                                                         <div className="row justify-content-center">
                                                             <div className="col-12 col-lg-10 col-xl-8 mx-auto">
-                                                                <div className="my-4">
+                                                                <div>
                                                                     <form>
-                                                                        <hr className="my-4" />
                                                                         <div className="form-row">
-                                                                            <div className="form-group col-md-6">
+                                                                            <div className="form-group col-md-6 my-3">
                                                                                 <label style={{ color: '#fff' }}>Nombre</label>
                                                                                 <input type="text" id="firstname" className="form-control"  value={state.nombretemp} onChange={(e) => setState({ ...state, nombretemp: e.target.value })} />
                                                                             </div>
-                                                                            <div className="form-group col-md-6">
+                                                                            <div className="form-group col-md-6 my-3">
                                                                                 <label style={{ color: '#fff' }}>Apellido</label>
                                                                                 <input type="text" id="lastname" className="form-control" value={state.apellidotemp}  onChange={(e) => setState({ ...state, apellidotemp: e.target.value })} />
                                                                             </div>
@@ -263,12 +341,10 @@ export default function Perfil() {
                                 <button type="button" className="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                <img src={state.preview}
+                                <img src={preview}
                                     alt="Avatar" className="img-fluid my-5" style={{ width: '200px' }} />
                                 <input type="file" name="avatar" accept='.png, .jpg, .jpeg' style={{color: '#fff'}}
-                                    onChange={(e) => {
-                                        setState({ ...state, preview: URL.createObjectURL(e.target.files[0]) })
-                                    }}
+                                    onChange={onSelectFile}
                                 />
                             </div>
 
@@ -276,7 +352,8 @@ export default function Perfil() {
 
                                 <Button className="button my-3" data-mdb-dismiss="modal"
                                     onClick={() => {
-                                        setState({ ...state, preview: state.foto })
+                                        // setState({ ...state, preview: state.foto })
+                                        setPreview(state.foto)
                                         setOpen(false)
                                     }}
                                     sx={{
@@ -293,7 +370,7 @@ export default function Perfil() {
 
                                 <Button className="button my-3" 
                                     onClick={() => {
-                                        setState({...state, foto: state.preview})
+                                        setState({...state, foto: preview})
                                         setOpen(false)
                                     }}
                                     sx={{
@@ -368,6 +445,10 @@ export default function Perfil() {
 
                                 <Button className="button my-3" data-mdb-dismiss="modal"
                                     type='submit'
+                                    onClick={() => {
+                                        handleSubmit()
+                                        setOpen2(false)
+                                    }}
                                     sx={{
                                         background: "#40A347",
                                         color: '#fff',
