@@ -14,16 +14,51 @@ import conversation from "../../assets/conversation";
 
 import Message from "../Message/Message";
 import SendIcon from "@mui/icons-material/Send";
-import { useState } from "react";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { useState, useEffect } from "react";
 
-function ChatContainer({ actualUser, friend, conversation, onSubmit }) {
+function ChatContainer({ actualUser, friend, conversation, onSubmit, onUpload, bot = false }) {
   const conversation_reverse = [...conversation].reverse()
   const [text,setText] = useState("")
+  
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+
+  const onSelectFile = (e) => {
+      if (!e.target.files || e.target.files.length === 0) {
+        setSelectedFile();
+        return;
+      }
+      setSelectedFile(e.target.files[0]);
+  };
+
+  useEffect(() => {
+      if (!selectedFile) {
+        setPreview();
+        return;
+      }
+
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+
+      onUpload({
+        file: selectedFile,
+        preview: objectUrl
+      })
+
+      return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedFile]);
+
   const handleSubmit = () => {
     const send = text
     onSubmit(send)
     setText("")
   };
+
+  // const handleUpload = () => {
+    
+  // }
+
   return (
     <Grid
       xs={7}
@@ -103,6 +138,7 @@ function ChatContainer({ actualUser, friend, conversation, onSubmit }) {
             message={message.content}
             date={message.message_date}
             left={message.sender != actualUser.email}
+            image={message.image ? message.image : null}
           />
         ))}
       </Grid>
@@ -121,7 +157,7 @@ function ChatContainer({ actualUser, friend, conversation, onSubmit }) {
         <Grid
           container
         >
-          <Grid item xs={11} sx={{ border: 0 }}>
+          <Grid item xs={bot ? 9.5 : 11} sx={{ border: 0 }}>
             <TextField
               id="outlined-multiline-static"
               multiline
@@ -133,6 +169,30 @@ function ChatContainer({ actualUser, friend, conversation, onSubmit }) {
             />
           </Grid>
 
+          {
+            bot && 
+              <Grid item xs={1} sx={{ border: 0, ml: 1 }} 
+                // onClick={handleSubmit}
+              >
+
+                <Button variant="text" startIcon={<AttachFileIcon fontSize="large"/>}
+                  sx={{color: '#ffffff', mx:1, mt:1.35, fontSize: '2.5rem'}}
+                  size="large"
+                  component="label">
+                  <input
+                      type="file"
+                      id="file"
+                      hidden
+                      onChange={onSelectFile}
+                      accept=".png, .jpeg, .jpg"
+                      name="imagen"
+                    />
+                </Button>
+
+
+              </Grid>
+          }
+
           <Grid item xs={1} sx={{ border: 0 }} 
             onClick={handleSubmit}
           >
@@ -142,6 +202,7 @@ function ChatContainer({ actualUser, friend, conversation, onSubmit }) {
               </IconButton>
             </Tooltip>
           </Grid>
+
         </Grid>
       </Grid>
     </Grid>

@@ -42,7 +42,11 @@ export class UserController {
   static async updateUser(req: Request, res: Response) {
     try {
       const newUser = req.body as User;
-      newUser.avatar = req.file as Express.MulterS3.File;
+      
+      if(req.file){
+        newUser.avatar = req.file as Express.MulterS3.File;
+      }
+      
       const message = await UserModel.updateUser(newUser);
       if (message != null) {
         return res.status(200).json(message);

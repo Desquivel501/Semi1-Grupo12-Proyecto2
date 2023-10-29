@@ -17,7 +17,7 @@ const meses = [
 ];
 
 function Message(props) {
-  const { foto, message, date, left = true } = props;
+  const { foto, message, date, left = true, image = null } = props;
 
   const align = left ? "left" : "right";
   const color = left ? "#737475" : "#0a1a42";
@@ -66,27 +66,48 @@ function Message(props) {
             </Typography>
           )}
 
-        <Grid
-          item
-          width="auto"
-          sx={{
-            border: 0,
-            backgroundColor: color,
-            borderRadius: 3,
-            px: 2,
-            py: 1,
-            mr: left ? 1 : 0,
-            ml: !left ? 1 : 0,
-          }}
-        >
-          {/* <Typography
-            variant="h6"
-            sx={{ textAlign: "left", color: "#ffffff", whiteSpace: "pre-line" }}
+        {
+          image ?  
+            <Grid
+              item
+              width="auto"
+              sx={{
+                border: 0,
+                backgroundColor: color,
+                borderRadius: 3,
+                px: 2,
+                py: 1,
+                mr: left ? 1 : 0,
+                ml: !left ? 1 : 0,
+              }}
+            >
+              <Box
+                component="img"
+                sx={{ 
+                my: 2,
+                maxWidth: '60%',
+                }}
+                alt="logo"
+                src={image}
+              />
+            </Grid>
+          :
+            <Grid
+            item
+            width="auto"
+            sx={{
+              border: 0,
+              backgroundColor: color,
+              borderRadius: 3,
+              px: 2,
+              py: 1,
+              mr: left ? 1 : 0,
+              ml: !left ? 1 : 0,
+            }}
           >
-            {message}
-          </Typography> */}
-          {parseLines(message)}
-        </Grid>
+            {parseLines(message)}
+          </Grid>
+        }
 
         {left &&
           (

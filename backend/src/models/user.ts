@@ -46,7 +46,7 @@ export class UserModel {
           user.name,
           user.lastName,
           user.dpi,
-          user.avatar.location,
+          user.avatar ? user.avatar.location : '',
         ],
       );
       return getSuccessfullMessage(data);
