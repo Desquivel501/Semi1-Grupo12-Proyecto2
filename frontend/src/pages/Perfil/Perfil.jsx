@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextField, CssBaseline, Typography, Box, Modal } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { alpha, styled } from '@mui/material/styles';
+import './Perfil.css';
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSession, getCurrentUser } from '../../auth/auth';
@@ -54,52 +55,53 @@ export default function Perfil() {
     })
     const [count, setCount] = useState(0);
 
-    const [open, setOpen] =useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const [open2, setOpen2] = useState(false);
 
-    const close_contrasena  = (e) => {
-        setState({...state, contrasena: '', nueva_contrasena: '', verificar_contrasena: ''})
+    const close_contrasena = (e) => {
+        setState({ ...state, contrasena: '', nueva_contrasena: '', verificar_contrasena: '' })
         setOpen2(false)
     }
 
     useEffect(() => {
         const start = async () => {
-        try {
-            const user = await getCurrentUser()
-            if (user === null) {
+            try {
+                const user = await getCurrentUser()
+                if (user === null) {
+                    navigate('/')
+                }
+
+                console.log(user['custom:dpi'])
+
+                setState({
+                    ...state,
+                    nombre: user.name,
+                    nombretemp: user.name,
+                    apellido: user.family_name,
+                    apellidotemp: user.family_name,
+                    dpi: user['custom:dpi'],
+                    dpitmp: user['custom:dpi'],
+                    foto: user.picture,
+                    preview: user.picture,
+                    correo: user.email,
+                })
+
+                console.log(user)
+
+            } catch (err) {
+                // not logged in
+                console.log(err)
                 navigate('/')
             }
-
-            console.log(user['custom:dpi'])
-
-            setState({...state,
-                nombre: user.name,
-                nombretemp: user.name,
-                apellido: user.family_name,
-                apellidotemp: user.family_name,
-                dpi: user['custom:dpi'],
-                dpitmp: user['custom:dpi'],
-                foto: user.picture,
-                preview: user.picture,
-                correo: user.email,
-            })
-
-            console.log(user)
-
-        } catch (err) {
-            // not logged in
-            console.log(err)
-            navigate('/')
-        }
         }
         start()
     }, [])
 
     const updateData = async () => {
-        
+
     }
 
 
@@ -118,18 +120,18 @@ export default function Perfil() {
                                     <div className="row g-0" style={{ justifyContent: 'center' }}>
 
                                         <div className="col-md-12 text-center text-white pb-4"
-                                            style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem', backgroundColor: '#223054' }}>
+                                            style={{ borderTopLeftRadius: '.3rem', borderBottomLeftRadius: '.3rem', backgroundColor: '#223054' }}>
                                             <img src={state.foto}
                                                 alt="Avatar" className="img-fluid my-5"
                                                 style={{
-                                                    width: '400px', border: 1, borderColor: '#000',
-                                                    boxShadow: '5px 5px 10px #000000',
-                                                    margin: '4em',
-                                                    borderRadius: '50%',
+                                                    width: '105px', border: 0, borderColor: '#000',
+                                                    boxShadow: '4px 4px 10px #000000',
+                                                    margin: '2em',
+                                                    borderRadius: '30%',
                                                 }}
                                                 onLoad={() => setCount(count + 1)}
                                             />
-                                            <h1 style={{color:'#fff'}}>{state.nombre + ' ' + state.apellido}</h1>
+                                            <h2 style={{ color: '#fff' }}>{state.nombre + ' ' + state.apellido}</h2>
                                         </div>
 
                                         <div className="col-md-10">
@@ -137,55 +139,41 @@ export default function Perfil() {
                                                 <div className="row pt-1 pb-1">
                                                     <h3 style={{ color: '#fff' }}>Actualizar mis datos</h3>
                                                 </div>
-                                                <hr className="mt-0 mb-4" />
+                                                
                                                 <div className="row pt-1" style={{ justifyContent: 'center' }}>
-                                                    <div className="col-5 mb-3">
-                                                        <h5 style={{ color: '#fff' }}>Nombre</h5>
 
-                                                        <CssTextField
-                                                            margin="normal"
-                                                            fullWidth
-                                                            id="name"
-                                                            name="name"
-                                                            value={state.nombretemp}
-                                                            onChange={(e) => setState({ ...state, nombretemp: e.target.value })}
-                                                            sx={{ input: { color: '#fff' }, borderColor: '#fff' }}
-                                                        />
+                                                    <div className="container">
+                                                        <div className="row justify-content-center">
+                                                            <div className="col-12 col-lg-10 col-xl-8 mx-auto">
+                                                                <div className="my-4">
+                                                                    <form>
+                                                                        <hr className="my-4" />
+                                                                        <div className="form-row">
+                                                                            <div className="form-group col-md-6">
+                                                                                <label style={{ color: '#fff' }}>Nombre</label>
+                                                                                <input type="text" id="firstname" className="form-control"  value={state.nombretemp} onChange={(e) => setState({ ...state, nombretemp: e.target.value })} />
+                                                                            </div>
+                                                                            <div className="form-group col-md-6">
+                                                                                <label style={{ color: '#fff' }}>Apellido</label>
+                                                                                <input type="text" id="lastname" className="form-control" value={state.apellidotemp}  onChange={(e) => setState({ ...state, apellidotemp: e.target.value })} />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="form-group">
+                                                                            <label style={{ color: '#fff' }}>DPI</label>
+                                                                            <input type="number" className="form-control" id="inputEmail4" value={state.dpitmp}  onChange={(e) => setState({ ...state, dpitmp: e.target.value })} />
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                    </div>
-                                                    <div className="col-5 mb-3">
-                                                        <h5 style={{ color: '#fff' }}>Apellido</h5>
-
-                                                        <CssTextField
-                                                            margin="normal"
-                                                            fullWidth
-                                                            id="lastname"
-                                                            name="lastname"
-                                                            value={state.apellidotemp}
-                                                            onChange={(e) => setState({ ...state, apellidotemp: e.target.value })}
-                                                            sx={{ input: { color: '#fff' }, borderColor: '#fff' }}
-                                                        />
-                                                    </div>
-
-                                                    <div className="col-5 mb-3">
-                                                        <h5 style={{ color: '#fff' }}>DPI</h5>
-                                                        <CssTextField
-                                                            margin="normal"
-                                                            fullWidth
-                                                            type='number'
-                                                            id="lastname"
-                                                            name="lastname"
-                                                            value={state.dpitmp}
-                                                            onChange={(e) => setState({ ...state, dpitmp: e.target.value })}
-                                                            sx={{ input: { color: '#fff' }, borderColor: '#fff' }}
-                                                        />
                                                     </div>
 
                                                 </div>
 
                                                 <hr className="mt-0 mb-4" />
                                                 <div className="row pt-1" style={{ justifyContent: 'center' }}>
-                                                    
+
                                                     <div className="col-7 mb-3">
                                                         <h5 style={{ color: '#fff' }}>Actualizar Foto de Perfil</h5>
                                                         
