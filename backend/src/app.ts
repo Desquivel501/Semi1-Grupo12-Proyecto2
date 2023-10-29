@@ -12,6 +12,7 @@ import { friendsRouter } from "./routes/friend";
 import { checkToken } from "./middlewares/jwt";
 import { chat } from "./libs/socketIo";
 import { chatBotRouter } from "./routes/chatBot";
+import { multiMediaRouter } from "./routes/multimedia";
 
 const app = express();
 const server = createServer(app);
@@ -31,6 +32,7 @@ app.use("/api/users", checkToken, userRouter);
 app.use("/api/friends", checkToken, friendsRouter);
 app.use("/api/posts", checkToken, postRouter);
 app.use("/api/chatBot", checkToken, chatBotRouter);
+app.use("/api/multimedia", checkToken, multiMediaRouter);
 
 chat(io);
 
