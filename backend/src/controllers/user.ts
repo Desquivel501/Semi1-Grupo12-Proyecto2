@@ -8,7 +8,7 @@ export class UserController {
       const newUser = req.body as User;
       newUser.avatar = req.file as Express.MulterS3.File;
       if (!newUser) {
-        res.status(400).json({ MESSAGE: "Faltan datos" });
+        return res.status(400).json({ MESSAGE: "Faltan datos" });
       }
       const message = await UserModel.register(newUser);
       if (message != null) {
@@ -26,7 +26,7 @@ export class UserController {
     try {
       const { email } = req.params;
       if (!email) {
-        res.status(400).json({ MESSAGE: "Faltan el correo" });
+        return res.status(400).json({ MESSAGE: "Faltan el correo" });
       }
       const message = await UserModel.getUser(email);
       if (message != null) {
@@ -58,7 +58,7 @@ export class UserController {
     try {
       const { email } = req.params;
       if (!email) {
-        res.status(400).json({ MESSAGE: "Faltan el correo" });
+        return res.status(400).json({ MESSAGE: "Faltan el correo" });
       }
       const message = await UserModel.deleteUser(email);
       if (message != null) {
