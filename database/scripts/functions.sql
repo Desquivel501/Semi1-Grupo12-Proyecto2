@@ -73,6 +73,20 @@ BEGIN
 END $$
 
 
+-- FUNCIÓN PARA VERIFICAR QUE UNA PUBLICACIÓN EXISTA
+DROP FUNCTION IF EXISTS publication_exists $$
+CREATE FUNCTION publication_exists(
+	pub_id INTEGER
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE existe BOOLEAN;
+    SELECT EXISTS( SELECT 1 FROM Publications p WHERE p.pub_id = pub_id) INTO existe;  
+    RETURN(existe);
+END $$
+
+
 -- Función para verificar que una amistad exista
 DROP FUNCTION IF EXISTS friendship_exists $$
 CREATE FUNCTION friendship_exists(
@@ -108,6 +122,23 @@ BEGIN
 END $$
 
 
+-- Función para obtener el id de un tag
+DROP FUNCTION IF EXISTS get_tag_id $$
+CREATE FUNCTION get_tag_id (
+	tag_in VARCHAR(255)
+)
+RETURNS INTEGER
+DETERMINISTIC
+BEGIN
+	DECLARE id INTEGER;
+	SELECT NULL INTO id;
+	
+	SELECT t.tag_id INTO id
+	FROM Tags t 
+	WHERE t.name = tag_in;
+
+	RETURN(id);
+END $$
 
 
 -- Función para obtener la fecha actual
@@ -123,4 +154,21 @@ BEGIN
 END $$
 
 
-
+-- Función para revisar si una publicación ya tiene un tag
+DROP FUNCTION IF EXISTS publication_tag_used $$
+CREATE FUNCTION publication_tag_used (
+	tag_id_in INTEGER,
+	pub_id_in INTEGER
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE used BOOLEAN;
+	SELECT EXISTS (
+		SELECT 1
+		FROM Tags_detail td 
+		WHERE td.tag_id = tag_id_in
+		AND td.pub_id = pub_id_in
+	) INTO used;
+	RETURN(used);
+END $$

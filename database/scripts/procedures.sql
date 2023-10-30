@@ -104,9 +104,9 @@ update_user:BEGIN
 	END IF;
 
 	IF photo_in = '' OR photo_in IS NULL THEN 
-		SELECT 'Se debe agregar una fotografía de usuario' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
-		LEAVE update_user;
+		SELECT u.photo INTO photo_in
+		FROM Users u
+		WHERE u.email = email_in;
 	END IF;
 
 	IF dpi_in = 0 OR dpi_in IS NULL THEN 
@@ -320,6 +320,219 @@ get_non_friends:BEGIN
 	AND u.email != email_in;
 END $$
 
+
+/***************************************PROCEDIMIENTOS PARA MANEJO PUBLICACIONES**********************************************/
+
+
+-- Procedimiento para crear publicaciones
+DROP PROCEDURE IF EXISTS CreatePublication $$
+CREATE PROCEDURE CreatePublication (
+	IN email_in VARCHAR(255),
+	IN image_in VARCHAR(255),
+	IN description_in VARCHAR(255)
+)
+create_publication:BEGIN
+	IF NOT email_exists(email_in) THEN
+		SELECT 'El correo que ha ingresado no se encuentra registrado' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE create_publication;
+	END IF;
+
+	IF image_in IS NULL OR image_in = '' THEN 
+		SELECT 'Una publicación debe tener una imagen agregada' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE create_publication;
+	END IF;
+
+	INSERT INTO Publications (email, image, description, pub_date)
+	VALUES (email_in, 
+	image_in, 
+	CASE 
+		WHEN description_in IS NULL THEN ''
+		ELSE description_in
+	END,
+	actual_date()
+	);
+
+	SELECT 'Publicación creada exitósamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE', LAST_INSERT_ID() AS 'ID' ;
+END $$
+
+
+-- Agregar comentario a una publicacion
+DROP PROCEDURE IF EXISTS AddComment $$
+CREATE PROCEDURE AddComment (
+	IN email_in VARCHAR(255),
+	IN pub_id_in INTEGER,
+	IN content_in VARCHAR(255)
+)
+add_comment:BEGIN
+	IF NOT email_exists(email_in) THEN
+		SELECT 'El correo que ha ingresado no se encuentra registrado' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_comment;
+	END IF;	
+
+	IF NOT publication_exists(pub_id_in) THEN
+		SELECT 'La publicación que ha ingresado no existe' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_comment;
+	END IF;	
+
+	IF content_in = '' OR content_in IS NULL THEN 
+		SELECT 'Un comentario no debe estar vacío' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_comment;	
+	END IF;
+
+	INSERT INTO Comments (content, pub_id, email, comment_date)
+	VALUES (content_in, pub_id_in, email_in, actual_date());
+
+	SELECT 'Comentario realizado exitósamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+
+-- Procedimiento para obtener una publicación en concreto
+-- Procedimiento para obtener las publicaciones de un usuario y de sus amigos
+DROP PROCEDURE IF EXISTS GetPublication $$
+CREATE PROCEDURE GetPublication(
+	IN pub_id_in INTEGER
+)
+get_publication:BEGIN
+	IF NOT publication_exists(pub_id_in) THEN
+		SELECT 'El correo que ha ingresado no se encuentra registrado' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE get_publication;
+	END IF;	
+
+	SELECT p.pub_id,
+		p.image,
+		p.description,
+		p.pub_date AS date,
+		CASE WHEN (COUNT(t.tag_id) = 0) THEN JSON_ARRAY()
+		ELSE
+			JSON_ARRAYAGG(
+				t.name
+			)
+		END
+		AS Tags,
+		u.name,
+		u.lastname AS lastname,
+		u.email,
+		u.photo AS avatar
+	FROM Publications p
+	LEFT JOIN Tags_detail td 
+	ON td.pub_id = p.pub_id 
+	LEFT JOIN Tags t 
+	ON t.tag_id = td.tag_id 
+	JOIN Users u 
+	ON u.email = p.email 
+	WHERE p.pub_id = pub_id_in
+	GROUP BY p.pub_id, u.email;
+END $$
+
+
+-- Procedimiento para obtener las publicaciones de un usuario y de sus amigos
+DROP PROCEDURE IF EXISTS GetPublications $$
+CREATE PROCEDURE GetPublications(
+	IN email_in VARCHAR(255)
+)
+get_publications:BEGIN
+	IF NOT email_exists(email_in) THEN
+		SELECT 'El correo que ha ingresado no se encuentra registrado' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE get_publications;
+	END IF;	
+
+	SELECT p.pub_id,
+		p.image,
+		p.description,
+		p.pub_date AS date,
+		CASE WHEN (COUNT(t.tag_id) = 0) THEN JSON_ARRAY()
+		ELSE
+			JSON_ARRAYAGG(
+				t.name
+			)
+		END
+		AS Tags,
+		u.name,
+		u.lastname AS lastname,
+		u.email,
+		u.photo AS image
+	FROM Publications p
+	LEFT JOIN Tags_detail td 
+	ON td.pub_id = p.pub_id 
+	LEFT JOIN Tags t 
+	ON t.tag_id = td.tag_id 
+	JOIN Users u 
+	ON u.email = p.email 
+	WHERE friends(p.email, email_in)
+	OR p.email = email_in
+	GROUP BY p.pub_id, u.email ;
+END $$
+
+
+-- Obtener los comentarios de una publicación en concreto
+DROP PROCEDURE IF EXISTS GetPublicationComments $$
+CREATE PROCEDURE GetPublicationComments (
+	IN pub_id_in INTEGER
+)
+get_publication_comments:BEGIN
+	IF NOT publication_exists(pub_id_in) THEN
+		SELECT 'La publicación que ha ingresado no existe' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE get_publication_comments;
+	END IF;	
+
+	SELECT u.name,
+		u.lastname AS family_name,
+		c.content,
+		c.comment_date AS date
+	FROM Comments c 
+	JOIN Users u 
+	ON c.email = u.email 
+	AND c.pub_id = pub_id_in;
+END $$	
+
+
+-- Agregar tags a las publicacion
+DROP PROCEDURE IF EXISTS AddTagToPublication $$
+CREATE PROCEDURE AddTagToPublication (
+	IN pub_id_in INTEGER,
+	IN tag_in VARCHAR(255)
+)
+add_tag_to_publication:BEGIN
+	DECLARE id_tag_in INTEGER;
+	SELECT get_tag_id(tag_in) INTO id_tag_in;
+
+	IF id_tag_in IS NULL THEN
+		INSERT INTO Tags (name)
+		VALUES (tag_in);
+	
+		SELECT get_tag_id(tag_in) INTO id_tag_in;
+	END IF;
+
+	IF publication_tag_used(id_tag_in, pub_id_in) THEN
+		LEAVE add_tag_to_publication;
+	END IF;
+
+	IF NOT publication_exists(pub_id_in) THEN
+		SELECT 'La publicación que ha ingresado no existe' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_tag_to_publication;
+	END IF;	
+	
+	INSERT INTO Tags_detail (tag_id, pub_id)
+	VALUES (id_tag_in, pub_id_in);
+END $$
+
+DROP PROCEDURE IF EXISTS GetAllTags $$
+CREATE PROCEDURE GetAllTags(
+)
+GetAllTags: BEGIN
+	SELECT * FROM Tags;
+END $$
 
 
 
